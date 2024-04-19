@@ -151,7 +151,7 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                                 isMale: isMale,
                               ),
                             );
-                            trans.Get.to( const QuestionsView(),transition: trans.Transition.rightToLeft);
+                            trans.Get.to(QuestionsView(),transition: trans.Transition.rightToLeft);
                           }
                         }
                     ),

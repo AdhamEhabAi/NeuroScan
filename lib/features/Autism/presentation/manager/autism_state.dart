@@ -20,5 +20,15 @@ final class AutismPatientInfoSavingFailure extends AutismState {
   AutismPatientInfoSavingFailure({required this.errMassage});
 
 }
+final class AnswerSelected extends AutismState{
+  final dynamic answer;
+
+  AnswerSelected({required this.answer});
+}
+final class NoAnswerSelected extends AutismState{}
+
+final class NextQuestion extends AutismState{}
+final class OutOfRange extends AutismState{}
+
 
 
