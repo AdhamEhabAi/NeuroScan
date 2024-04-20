@@ -20,6 +20,7 @@ class RegisterPage extends StatelessWidget {
   String? email;
   String? password;
   bool isLoading = false;
+  bool isSeen = false;
   GlobalKey<FormState> formKey = GlobalKey();
 
   RegisterPage({super.key});
@@ -40,6 +41,11 @@ class RegisterPage extends StatelessWidget {
         } else if (state is RegisterFailure) {
           showSnackBar(context, state.errMassage);
           isLoading = false;
+        }
+        if(state is passwordIsSeen){
+          isSeen = true;
+        }else if (state is passwordIsHidden){
+          isSeen = false;
         }
       },
       builder: (context, state) {
@@ -97,7 +103,13 @@ class RegisterPage extends StatelessWidget {
                             textInputType: TextInputType.visiblePassword,
                             controller: passController,
                             prefix: const Icon(Icons.lock_outline_rounded),
-                            obsecureText: true,
+                            suffix: InkWell(
+                              onTap: (){
+                                BlocProvider.of<AuthCubit>(context).changePasswordState(isSeen: isSeen);
+                              },
+                              child: isSeen == false ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                            ),
+                            obsecureText: isSeen == false ? true: false,
                             hintText: 'Password',
                             labelText: 'Password'),
                         const SizedBox(
@@ -118,7 +130,13 @@ class RegisterPage extends StatelessWidget {
                             textInputType: TextInputType.visiblePassword,
                             controller: confirmPassController,
                             prefix: const Icon(Icons.lock_outline_rounded),
-                            obsecureText: true,
+                            suffix: InkWell(
+                              onTap: (){
+                                BlocProvider.of<AuthCubit>(context).changePasswordState(isSeen: isSeen);
+                              },
+                              child: isSeen == false ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                            ),
+                            obsecureText: isSeen == false ? true: false,
                             hintText: 'Confirm Password',
                             labelText: 'Confirm Password'),
                         const SizedBox(

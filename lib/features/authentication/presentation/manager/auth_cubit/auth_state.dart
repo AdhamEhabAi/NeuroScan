@@ -11,6 +11,9 @@ class LoginFailure extends AuthState {
   LoginFailure({required this.errMassage});
 }
 class LoginLoading extends AuthState {}
+class passwordIsSeen extends AuthState {}
+class passwordIsHidden extends AuthState {}
+
 
 class RegisterLoading extends AuthState {}
 class RegisterFailure extends AuthState {

@@ -83,4 +83,14 @@ class AuthCubit extends Cubit<AuthState> {
       emit(GetUserEmailFailure(errMassage: e.toString()));
     }
   }
+
+  void changePasswordState({required bool isSeen}){
+    if(isSeen == true){
+      isSeen == false;
+      emit(passwordIsHidden());
+    }else{
+      isSeen == true;
+      emit(passwordIsSeen());
+    }
+  }
 }

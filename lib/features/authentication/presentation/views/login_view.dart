@@ -13,12 +13,12 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart' as trans;
 
-
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   String? email, password;
   bool isLoading = false;
+  bool isSeen = false;
   GlobalKey<FormState> formKey = GlobalKey();
 
   LoginPage({super.key});
@@ -37,9 +37,14 @@ class LoginPage extends StatelessWidget {
           );
           isLoading = false;
         } else if (state is LoginFailure) {
-
           showSnackBar(context, state.errMassage);
           isLoading = false;
+        }
+
+        if(state is passwordIsSeen){
+          isSeen = true;
+        }else if (state is passwordIsHidden){
+          isSeen = false;
         }
       },
       builder: (context, state) => ModalProgressHUD(
@@ -48,12 +53,16 @@ class LoginPage extends StatelessWidget {
           body: SingleChildScrollView(
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
                 child: Form(
                   key: formKey,
                   child: Column(
                     children: [
-                      Image.asset(kLogo,width: 220,),
+                      Image.asset(
+                        kLogo,
+                        width: 220,
+                      ),
                       const Row(
                         children: [
                           Text(
@@ -99,7 +108,13 @@ class LoginPage extends StatelessWidget {
                           textInputType: TextInputType.visiblePassword,
                           controller: passController,
                           prefix: const Icon(Icons.lock_outline_rounded),
-                          obsecureText: true,
+                          suffix: InkWell(
+                            onTap: (){
+                              BlocProvider.of<AuthCubit>(context).changePasswordState(isSeen: isSeen);
+                            },
+                              child: isSeen == false ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                          ),
+                          obsecureText: isSeen == false ? true: false,
                           hintText: 'Password',
                           labelText: 'Password'),
                       const SizedBox(
@@ -158,10 +173,9 @@ class LoginPage extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(
-                                RegisterPage(),
-                                transition: trans.Transition.leftToRightWithFade
-                              );
+                              Get.to(RegisterPage(),
+                                  transition:
+                                      trans.Transition.leftToRightWithFade);
                             },
                             child: const Text(
                               'Sign Up',

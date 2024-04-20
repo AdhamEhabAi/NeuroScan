@@ -9,14 +9,17 @@ class CustomTextField extends StatelessWidget {
       super.key,
       this.hintText,
       this.prefix,
+        this.suffix,
       this.labelText,
       this.onChanged,
-      this.obsecureText = false, required this.textInputType});
+      this.obsecureText = false,
+        required this.textInputType});
   String? labelText;
   String? hintText;
   FormFieldValidator<String>? validator;
   Function(String)? onChanged;
   Widget? prefix;
+  Widget? suffix;
   bool obsecureText;
   TextEditingController? controller = TextEditingController();
   final TextInputType textInputType;
@@ -57,6 +60,7 @@ class CustomTextField extends StatelessWidget {
           labelStyle: const TextStyle(color: kPrimaryColor),
           prefixIcon: prefix,
           prefixIconColor: kPrimaryColor,
+          suffixIcon: suffix,
         ),
       ),
     );
