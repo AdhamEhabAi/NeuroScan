@@ -57,7 +57,6 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
               )),
         ),
         body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
           clipBehavior: Clip.none,
           child: Center(
             child: Padding(

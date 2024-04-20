@@ -8,18 +8,16 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
-  Future<void> loginEmailPassword(
-      {required String email, required String password}) async {
+  Future<void> loginEmailPassword({required String email, required String password}) async {
     emit(LoginLoading());
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
       emit(LoginSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
         emit(LoginFailure(errMassage: 'Invalid email or password'));
       } else {
-        emit(LoginFailure(errMassage: e.message!));
+        emit(LoginFailure(errMassage: e.message ?? 'An error occurred'));
       }
     } catch (e) {
       emit(LoginFailure(errMassage: 'Something went wrong'));
@@ -27,14 +25,15 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signInWithGoogle() async {
+    emit(LoginLoading());
     try {
-      emit(LoginLoading());
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        return;
+        emit(LoginFailure(errMassage: "Sign-in was cancelled"));
+        return; // User cancelled the sign-in
       }
-      final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -44,18 +43,16 @@ class AuthCubit extends Cubit<AuthState> {
       await FirebaseAuth.instance.signInWithCredential(credential);
       emit(LoginSuccess());
     } on FirebaseAuthException catch (e) {
-      emit(LoginFailure(errMassage: e.message!));
+      emit(LoginFailure(errMassage: e.message ?? 'An error occurred during Google sign-in'));
     } catch (e) {
-      emit(LoginFailure(errMassage: 'Something went wrong'));
+      emit(LoginFailure(errMassage: 'An unexpected error occurred'));
     }
   }
 
-  Future<void> registerEmailPassword(
-      {required String email, required String password}) async {
+  Future<void> registerEmailPassword({required String email, required String password}) async {
     emit(RegisterLoading());
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
       emit(RegisterSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -63,7 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
       } else if (e.code == 'email-already-in-use') {
         emit(RegisterFailure(errMassage: 'Email already Exists'));
       } else {
-        emit(RegisterFailure(errMassage: e.message!));
+        emit(RegisterFailure(errMassage: e.message ?? 'An error occurred'));
       }
     } catch (e) {
       emit(RegisterFailure(errMassage: 'Something went wrong'));
@@ -84,12 +81,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void changePasswordState({required bool isSeen}){
-    if(isSeen == true){
-      isSeen == false;
+  void changePasswordState({required bool isSeen}) {
+    if (isSeen) {
       emit(passwordIsHidden());
-    }else{
-      isSeen == true;
+    } else {
       emit(passwordIsSeen());
     }
   }
