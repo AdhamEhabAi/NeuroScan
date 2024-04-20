@@ -34,7 +34,6 @@ class LoginPage extends StatelessWidget {
           Get.offAll(
             const HomeScreen(),
             transition: trans.Transition.fadeIn,
-            duration: const Duration(milliseconds: 800),
           );
           isLoading = false;
         } else if (state is LoginFailure) {
@@ -49,15 +48,12 @@ class LoginPage extends StatelessWidget {
           body: SingleChildScrollView(
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
                 child: Form(
                   key: formKey,
                   child: Column(
                     children: [
-                      Image.asset(kLogo,width: 180,),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      Image.asset(kLogo,width: 220,),
                       const Row(
                         children: [
                           Text(

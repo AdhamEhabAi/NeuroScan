@@ -40,7 +40,7 @@ class HomeViewDrawer extends StatelessWidget {
                 height: 20,
               ),
               ListTile(
-                leading: Image.asset(kLogo,fit: BoxFit.cover,width: 60,),
+                leading: Image.asset(kLogo,fit: BoxFit.cover,width: 70,),
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

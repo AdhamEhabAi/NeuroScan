@@ -34,7 +34,7 @@ class PatientsView extends StatelessWidget {
         actions: const [
           ImageIcon(
             AssetImage(kLogo),
-            size: 100,
+            size: 120,
           ),
         ],
       ),
