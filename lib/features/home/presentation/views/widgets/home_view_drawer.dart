@@ -73,7 +73,7 @@ class HomeViewDrawer extends StatelessWidget {
                 },
                 title: const Row(
                   children: [
-                    Icon(Icons.book_outlined,size: 35,),
+                    Icon(Icons.book_outlined,size: 30,),
                     SizedBox(
                       width: 10,
                     ),
@@ -93,7 +93,7 @@ class HomeViewDrawer extends StatelessWidget {
                 },
                 title: const Row(
                   children: [
-                    Icon(Icons.change_circle_rounded,size: 35,),
+                    Icon(Icons.change_circle_rounded,size: 30,),
                     SizedBox(
                       width: 10,
                     ),
@@ -110,7 +110,7 @@ class HomeViewDrawer extends StatelessWidget {
               ListTile(
                 title: const Row(
                   children: [
-                    Icon(Icons.policy_outlined,size: 35,),
+                    Icon(Icons.policy_outlined,size: 30,),
                     SizedBox(
                       width: 10,
                     ),
@@ -150,7 +150,7 @@ class HomeViewDrawer extends StatelessWidget {
               ListTile(
                 title: const Row(
                   children: [
-                    Icon(Icons.logout,size: 35,),
+                    Icon(Icons.logout,size: 30,),
                     SizedBox(
                       width: 10,
                     ),

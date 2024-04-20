@@ -1,5 +1,7 @@
 import 'package:animation/core/utils/constants.dart';
+import 'package:animation/features/Autism/presentation/manager/autism_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AgeSliderWidget extends StatefulWidget {
   const AgeSliderWidget({super.key, required this.age});
@@ -58,6 +60,7 @@ class _AgeSliderWidgetState extends State<AgeSliderWidget> {
             setState(() {
               age = value;
             });
+            BlocProvider.of<AutismCubit>(context).setPatientAge(patientAge: age);
           },
         ),
       ],

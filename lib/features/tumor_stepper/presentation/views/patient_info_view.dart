@@ -1,6 +1,5 @@
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/core/widgets/custom_button.dart';
-import 'package:animation/features/authentication/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:animation/features/authentication/presentation/views/widgets/custom_text_field.dart';
 import 'package:animation/features/tumor_stepper/presentation/manager/tumor_stepper_cubit.dart';
 import 'package:animation/features/tumor_stepper/presentation/views/widgets/age_slider_widget.dart';
@@ -22,8 +21,11 @@ class _PatientInfoViewState extends State<PatientInfoView> {
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+
   bool isMale = true;
-  double age = 20;
+  late double age = 20;
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class _PatientInfoViewState extends State<PatientInfoView> {
                 height: 20,
               ),
               CustomTextField(
+                prefix: const Icon(Icons.person),
                 controller: firstNameController,
                 textInputType: TextInputType.text,
                 labelText: 'First Name',
@@ -60,6 +63,7 @@ class _PatientInfoViewState extends State<PatientInfoView> {
                 height: 20,
               ),
               CustomTextField(
+                prefix: const Icon(Icons.person),
                 controller: secondNameController,
                 textInputType: TextInputType.text,
                 labelText: 'Last Name',
@@ -72,7 +76,27 @@ class _PatientInfoViewState extends State<PatientInfoView> {
                   }
                 },
               ),
-              AgeSliderWidget(age: age),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomTextField(
+                prefix: const Icon(Icons.phone),
+                controller: phoneNumberController,
+                textInputType: TextInputType.phone,
+                labelText: 'Phone Number',
+                hintText: 'Phone Number',
+                validator: (value) {
+                  RegExp regExp = RegExp(r'^(012|010|011|015)\d{8}$');
+                  if (value!.isEmpty) {
+                    return 'This Field is required';
+                  } else if(regExp.hasMatch(value)){
+                    return null;
+                  }else {
+                    return 'Enter Valid Number';
+                  }
+                },
+              ),
+              AgeSliderWidget(age: age,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -120,13 +144,14 @@ class _PatientInfoViewState extends State<PatientInfoView> {
                         BlocProvider.of<TumorStepperCubit>(context)
                             .setPatientInfo(
                           patient: PatientInfo(
+                            userNumber: phoneNumberController.text,
                             userId: userId!,
                             result: 'true',
                             disease: 'Tumor',
                             date: formattedDate,
                             fName: firstNameController.text,
                             lName: secondNameController.text,
-                            age: age,
+                            age: BlocProvider.of<TumorStepperCubit>(context).age!,
                             isMale: isMale,
                           ),
                         );

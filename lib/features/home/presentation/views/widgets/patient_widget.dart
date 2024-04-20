@@ -68,7 +68,7 @@ class PatientWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                IconButton(onPressed: onTap, icon: const Icon(Icons.arrow_forward_ios_outlined,size: 18,))
+                IconButton(onPressed: onTap, icon: const ImageIcon(AssetImage('assets/images/whatsapp.png')))
               ],
             ),
           ],

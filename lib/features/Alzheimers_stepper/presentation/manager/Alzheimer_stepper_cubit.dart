@@ -14,6 +14,7 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
   int currentStep = 0;
   File? selectedImage;
   PatientInfo? patientInfo;
+  double? age;
 
 
   void increaseStepper() {
@@ -28,6 +29,10 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
       currentStep -= 1;
       emit(AlzheimerStepperDecrease());
     }
+  }
+  void setPatientAge({required double patientAge}){
+    age = patientAge;
+    emit(SetPatientAgeSuccess());
   }
 
   Future<void> pickImageFromGallery() async {
@@ -72,6 +77,7 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
         'lName': patientInfo.lName,
         'result': patientInfo.result,
         'userId': patientInfo.userId,
+        'number':'+2${patientInfo.userNumber}',
       });
       emit(AlzheimerPatientInfoSaved());
     } on Exception catch (e) {

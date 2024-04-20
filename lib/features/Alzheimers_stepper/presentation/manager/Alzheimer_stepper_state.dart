@@ -7,6 +7,9 @@ class AlzheimerStepperInitial extends AlzheimerStepperState {}
 class AlzheimerStepperIncrease extends AlzheimerStepperState {}
 class AlzheimerStepperDecrease extends AlzheimerStepperState {}
 class AlzheimerStepperField extends AlzheimerStepperState {}
+class SetPatientAgeSuccess extends AlzheimerStepperState {}
+
+
 
 class ImageUploadSuccess extends AlzheimerStepperState {}
 class ImageUploadField extends AlzheimerStepperState

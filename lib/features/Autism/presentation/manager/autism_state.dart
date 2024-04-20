@@ -11,6 +11,8 @@ final class AutismPatientInfoError extends AutismState {
   AutismPatientInfoError({required this.errMassage});
 }
 
+final class SetPatientAgeSuccess extends AutismState {}
+
 final class AutismPatientInfoSaving extends AutismState {}
 final class AutismPatientInfoSaved extends AutismState {}
 

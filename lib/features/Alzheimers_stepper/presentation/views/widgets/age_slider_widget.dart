@@ -1,4 +1,6 @@
+import 'package:animation/features/Alzheimers_stepper/presentation/manager/Alzheimer_stepper_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AgeSliderWidget extends StatefulWidget {
   const AgeSliderWidget({super.key, required this.age});
@@ -9,7 +11,7 @@ class AgeSliderWidget extends StatefulWidget {
 }
 
 class _AgeSliderWidgetState extends State<AgeSliderWidget> {
-  late double age = 20;
+  late double age;
   @override
   void initState() {
     super.initState();
@@ -56,6 +58,7 @@ class _AgeSliderWidgetState extends State<AgeSliderWidget> {
             setState(() {
               age = value;
             });
+            BlocProvider.of<AlzheimerStepperCubit>(context).setPatientAge(patientAge: age);
           },
         ),
       ],

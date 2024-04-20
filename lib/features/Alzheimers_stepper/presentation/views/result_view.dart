@@ -44,7 +44,7 @@ class ResultView extends StatelessWidget {
             children: [
               Stack(children: [
                 PatientResultWidget(
-                    label: 'Patient Name',
+                    label: 'Name',
                     value: '${patientInfo.fName} ${patientInfo.lName}'),
                 Positioned(
                   right: 20,
@@ -55,7 +55,7 @@ class ResultView extends StatelessWidget {
                 height: 10,
               ),
               PatientResultWidget(
-                  label: 'Patient Age',
+                  label: 'Age',
                   value: patientInfo.age.round().toString()),
               const SizedBox(
                 height: 10,
@@ -63,6 +63,12 @@ class ResultView extends StatelessWidget {
               PatientResultWidget(
                   label: 'Patient Gender',
                   value: patientInfo.isMale ? 'Male' : 'Female'),
+              const SizedBox(
+                height: 10,
+              ),
+              PatientResultWidget(
+                  label: 'Phone Number',
+                  value: patientInfo.userNumber),
               const SizedBox(
                 height: 10,
               ),

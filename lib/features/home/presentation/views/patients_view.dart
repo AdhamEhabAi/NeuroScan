@@ -1,4 +1,5 @@
 import 'package:animation/core/utils/constants.dart';
+import 'package:animation/core/utils/functions.dart';
 import 'package:animation/features/home/presentation/views/widgets/patient_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,7 +63,9 @@ class PatientsView extends StatelessWidget {
                 delete: () {
                   patients.doc(document.id).delete();
                 },
-                onTap: () {},
+                onTap: () {
+                  openWhatsAppChat(phoneNumber: data['number'] ?? '');
+                },
                 date: data['date'] ?? '',
                 disease: data['disease'] ?? '',
                 name: '${data['fName']} ${data['lName'][0].toUpperCase()+'.'}',

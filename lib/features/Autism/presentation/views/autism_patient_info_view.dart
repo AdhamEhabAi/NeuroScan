@@ -1,4 +1,3 @@
-
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
@@ -25,13 +24,15 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
   GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+
   double age = 20;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -40,12 +41,20 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
           backgroundColor: kPrimaryColor,
           title: const Text(
             'Patient information',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Colors.white),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
           ),
-          leading: IconButton(onPressed: ()
-          {
-            trans.Get.back();
-          },icon: const Icon(Icons.arrow_back,color: Colors.white,)),
+          leading: IconButton(
+              onPressed: () {
+                trans.Get.back();
+                BlocProvider.of<AutismCubit>(context).selectedAnswer = null;
+                BlocProvider.of<AutismCubit>(context).answers = [];
+                BlocProvider.of<AutismCubit>(context).currentQuestionIndex = 0;
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              )),
         ),
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -58,50 +67,74 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     CustomTextField(
+                      prefix: const Icon(Icons.person),
+
                       controller: firstNameController,
                       textInputType: TextInputType.text,
                       labelText: 'First Name',
                       hintText: 'First Name',
-                      validator: (value)
-                      {
-                        if(value!.isEmpty)
-                        {
+                      validator: (value) {
+                        if (value!.isEmpty) {
                           return 'This Field is required';
-                        }else
-                        {
+                        } else {
                           return null;
                         }
                       },
                     ),
-                    const SizedBox(height: 20,),
-
+                    const SizedBox(
+                      height: 20,
+                    ),
                     CustomTextField(
+                      prefix: const Icon(Icons.person),
+
                       controller: secondNameController,
                       textInputType: TextInputType.text,
                       labelText: 'Last Name',
                       hintText: 'Last Name',
-                      validator: (value)
-                      {
-                        if(value!.isEmpty)
-                        {
+                      validator: (value) {
+                        if (value!.isEmpty) {
                           return 'This Field is required';
-                        }else
-                        {
+                        } else {
                           return null;
                         }
                       },
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      prefix: const Icon(Icons.phone),
+                      controller: phoneNumberController,
+                      textInputType: TextInputType.phone,
+                      labelText: 'Phone Number',
+                      hintText: 'Phone Number',
+                      validator: (value) {
+                        RegExp regExp = RegExp(r'^(012|010|011|015)\d{8}$');
+                        if (value!.isEmpty) {
+                          return 'This Field is required';
+                        } else if (regExp.hasMatch(value)) {
+                          return null;
+                        } else {
+                          return 'Enter Valid Number';
+                        }
+                      },
+                    ),
                     AgeSliderWidget(age: age),
-                    const SizedBox(height: 20,),
-
+                    const SizedBox(
+                      height: 20,
+                    ),
                     const Text(
                       'Gender',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 20,),
-
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -127,34 +160,37 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 40,),
-
+                    const SizedBox(
+                      height: 40,
+                    ),
                     CustomButton(
                         text: 'Questions',
                         ontap: () {
-                          if(formKey.currentState!.validate())
-                          {
-                            String formattedDate = DateFormat('yyyy/MM/dd').format(DateTime.now());
-          
-                            String? userId = FirebaseAuth.instance.currentUser?.uid;
-          
+                          if (formKey.currentState!.validate()) {
+                            String formattedDate =
+                                DateFormat('yyyy/MM/dd').format(DateTime.now());
+
+                            String? userId =
+                                FirebaseAuth.instance.currentUser?.uid;
+
                             BlocProvider.of<AutismCubit>(context)
                                 .setPatientInfo(
                               patient: PatientInfo(
+                                userNumber: phoneNumberController.text,
                                 userId: userId!,
                                 result: 'true',
-                                disease: 'Alzheimer',
+                                disease: 'Autism',
                                 date: formattedDate,
                                 fName: firstNameController.text,
                                 lName: secondNameController.text,
-                                age: age,
+                                age: BlocProvider.of<AutismCubit>(context).age!,
                                 isMale: isMale,
                               ),
                             );
-                            trans.Get.to(QuestionsView(),transition: trans.Transition.rightToLeft);
+                            trans.Get.to(const QuestionsView(),
+                                transition: trans.Transition.rightToLeft);
                           }
-                        }
-                    ),
+                        }),
                   ],
                 ),
               ),
@@ -165,4 +201,3 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
     );
   }
 }
-

@@ -14,7 +14,13 @@ class TumorStepperCubit extends Cubit<TumorStepperState> {
   int currentStep = 0;
   File? selectedImage;
   PatientInfo? patientInfo;
+  double? age;
 
+  void setPatientAge({required double patientAge})
+  {
+    age = patientAge;
+    emit(SetPatientAgeSuccess());
+  }
   void increaseStepper() {
     if (currentStep < 2) {
       currentStep += 1;
@@ -64,7 +70,8 @@ class TumorStepperCubit extends Cubit<TumorStepperState> {
   void savePatientDataToCloud({required PatientInfo patientInfo}) async {
     try {
       emit(TumorPatientInfoSaving());
-      CollectionReference patient = FirebaseFirestore.instance.collection('patients');
+      CollectionReference patient =
+          FirebaseFirestore.instance.collection('patients');
       patient.add({
         'age': patientInfo.age.round().toString(),
         'date': patientInfo.date,
@@ -73,11 +80,14 @@ class TumorStepperCubit extends Cubit<TumorStepperState> {
         'isMale': patientInfo.isMale,
         'lName': patientInfo.lName,
         'result': patientInfo.result,
-        'userId':patientInfo.userId,
+        'userId': patientInfo.userId,
+        'number': '+2${patientInfo.userNumber}',
       });
       emit(TumorPatientInfoSaved());
     } on Exception catch (e) {
       emit(TumorPatientInfoSavingFailure(errMassage: e.toString()));
     }
   }
+
+
 }

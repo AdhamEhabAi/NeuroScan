@@ -43,6 +43,7 @@ dependencies:
   google_sign_in:
   modal_progress_hud_nsn:
   get:
+  url_launcher:
   flutter_bloc:
   dotted_border: ^2.1.0
   image_picker:

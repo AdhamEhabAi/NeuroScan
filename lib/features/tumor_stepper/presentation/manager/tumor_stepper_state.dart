@@ -10,6 +10,8 @@ class TumorStepperIncrease extends TumorStepperState {}
 class TumorStepperDecrease extends TumorStepperState {}
 
 class TumorStepperField extends TumorStepperState {}
+class SetPatientAgeSuccess extends TumorStepperState {}
+
 
 class ImageUploadSuccess extends TumorStepperState {}
 

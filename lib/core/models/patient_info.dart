@@ -6,9 +6,11 @@ class PatientInfo {
   final String disease;
   final String result;
   final String userId;
+  final String userNumber;
 
   PatientInfo(
       {required this.fName,
+       required this.userNumber,
       required this.userId,
       required this.result,
       required this.lName,

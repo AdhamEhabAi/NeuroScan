@@ -1,6 +1,6 @@
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/features/Autism/data/questions_data/question_data.dart';
-import 'package:animation/features/home/presentation/views/home_view.dart';
+import 'package:animation/features/Autism/presentation/views/result_view.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,14 @@ class AutismCubit extends Cubit<AutismState> {
   List<dynamic> answers = [];
   int currentQuestionIndex = 0;
   dynamic selectedAnswer;
+  double? age;
 
+
+
+  void setPatientAge({required double patientAge}){
+    age = patientAge;
+    emit(SetPatientAgeSuccess());
+  }
   void setPatientInfo({required PatientInfo patient}) {
     try {
       patientInfo = patient;
@@ -38,6 +45,7 @@ class AutismCubit extends Cubit<AutismState> {
         'lName': patientInfo.lName,
         'result': patientInfo.result,
         'userId': patientInfo.userId,
+        'number':'+20${patientInfo.userNumber}',
       });
       emit(AutismPatientInfoSaved());
     } on Exception catch (e) {
@@ -65,7 +73,7 @@ class AutismCubit extends Cubit<AutismState> {
       if (answerSelected != null) {
         answers.add(answerSelected);
         emit(OutOfRange());
-        Get.off(const HomeScreen());
+        Get.off(const ResultView());
         for (var answer in answers) {
           print(answer);
         }
