@@ -1,5 +1,6 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
+import 'package:animation/core/widgets/show_hint_snack_bar.dart';
 import 'package:animation/features/Autism/data/questions_data/question_data.dart';
 import 'package:animation/features/Autism/presentation/manager/autism_cubit.dart';
 import 'package:animation/features/Autism/presentation/views/widgets/question_widget.dart';
@@ -95,7 +96,7 @@ class QuestionsView extends StatelessWidget {
                   ontap: () {
                     // Check if the state is NoAnswerSelected
                     if (state is NoAnswerSelected) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Center(child: Text('No answer is selected'))));
+                      showHintSnackBar(context, 'No answer is selected');
 
                     }else {
                       // If an answer is selected, proceed to the next question

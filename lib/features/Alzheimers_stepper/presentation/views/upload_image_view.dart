@@ -1,5 +1,8 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
+import 'package:animation/core/widgets/show_failure_snack_bar.dart';
+import 'package:animation/core/widgets/show_hint_snack_bar.dart';
+import 'package:animation/core/widgets/show_success_snack_bar.dart';
 import 'package:animation/features/Alzheimers_stepper/presentation/manager/Alzheimer_stepper_cubit.dart';
 import 'package:animation/features/Alzheimers_stepper/presentation/views/widgets/alzheimer_uploaded_image.dart';
 import 'package:animation/features/Alzheimers_stepper/presentation/views/widgets/image_upload_widget.dart';
@@ -15,17 +18,11 @@ class UploadImageView extends StatelessWidget {
     return BlocConsumer<AlzheimerStepperCubit, AlzheimerStepperState>(
       listener: (context, state) {
         if (state is ImageUploadSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Image Upload Success')),
-          );
+          showSuccessSnackBar(context, 'Image Upload Success');
         } else if (state is ImageUploadField) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errMassage)),
-          );
+          showFailureSnackBar(context, state.errMassage);
         } else if (state is ImageRemoveSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Image Remove Success')),
-          );
+          showSuccessSnackBar(context, 'Image Remove Success');
         }
       },
       builder: (context, state) {
@@ -60,7 +57,9 @@ class UploadImageView extends StatelessWidget {
                   height: 20,
                 ),
                 selectedImage != null
-                    ? AlzheimerUploadedImage(selectedImage: selectedImage,)
+                    ? AlzheimerUploadedImage(
+                        selectedImage: selectedImage,
+                      )
                     : ImageUploadWidget(onTab: () {
                         BlocProvider.of<AlzheimerStepperCubit>(context)
                             .pickImageFromGallery();
@@ -76,19 +75,15 @@ class UploadImageView extends StatelessWidget {
                   height: 20,
                 ),
                 CustomButton(
-                  text: 'Continue',
-                  ontap: () {
-                          if (selectedImage != null) {
-                            BlocProvider.of<AlzheimerStepperCubit>(context)
-                                .increaseStepper();
-                          }else
-                          {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Please Enter An Image')),
-                            );
-                          }
-                        }
-                ),
+                    text: 'Continue',
+                    ontap: () {
+                      if (selectedImage != null) {
+                        BlocProvider.of<AlzheimerStepperCubit>(context)
+                            .increaseStepper();
+                      } else {
+                        showHintSnackBar(context, 'Please Enter An Image');
+                      }
+                    }),
                 const SizedBox(
                   height: 20,
                 ),

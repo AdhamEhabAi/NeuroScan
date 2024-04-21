@@ -1,5 +1,6 @@
 import 'package:animation/core/utils/constants.dart';
-import 'package:animation/core/widgets/show_snack_bar.dart';
+import 'package:animation/core/widgets/show_failure_snack_bar.dart';
+import 'package:animation/core/widgets/show_success_snack_bar.dart';
 import 'package:animation/features/authentication/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:animation/features/authentication/presentation/views/register_view.dart';
 import 'package:animation/core/widgets/custom_button.dart';
@@ -35,9 +36,10 @@ class LoginPage extends StatelessWidget {
             const HomeScreen(),
             transition: trans.Transition.fadeIn,
           );
+          showSuccessSnackBar(context,'Login Success');
           isLoading = false;
         } else if (state is LoginFailure) {
-          showSnackBar(context, state.errMassage);
+          showFailureSnackBar(context, state.errMassage);
           isLoading = false;
         }
 

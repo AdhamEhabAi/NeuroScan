@@ -1,5 +1,6 @@
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/core/widgets/custom_button.dart';
+import 'package:animation/core/widgets/show_success_snack_bar.dart';
 import 'package:animation/features/authentication/presentation/views/widgets/custom_text_field.dart';
 import 'package:animation/features/tumor_stepper/presentation/manager/tumor_stepper_cubit.dart';
 import 'package:animation/features/tumor_stepper/presentation/views/widgets/age_slider_widget.dart';

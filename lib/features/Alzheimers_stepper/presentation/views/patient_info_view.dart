@@ -163,6 +163,7 @@ class _PatientInfoViewState extends State<PatientInfoView> {
 
                           ),
                         );
+
                         BlocProvider.of<AlzheimerStepperCubit>(context)
                             .increaseStepper();
                       }

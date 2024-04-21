@@ -1,6 +1,8 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
-import 'package:animation/core/widgets/show_snack_bar.dart';
+import 'package:animation/core/widgets/show_failure_snack_bar.dart';
+import 'package:animation/core/widgets/show_hint_snack_bar.dart';
+import 'package:animation/core/widgets/show_success_snack_bar.dart';
 import 'package:animation/features/authentication/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:animation/features/authentication/presentation/views/widgets/email_validator.dart';
 import 'package:animation/features/home/presentation/views/home_view.dart';
@@ -31,15 +33,17 @@ class RegisterPage extends StatelessWidget {
       listener: (context, state) {
         if (state is RegisterLoading) {
           isLoading = true;
+          showHintSnackBar(context, 'Please Wait');
         } else if (state is RegisterSuccess) {
           BlocProvider.of<AuthCubit>(context).getUser();
           Get.offAll(
             const HomeScreen(),
             transition: trans.Transition.fadeIn,
           );
+          showSuccessSnackBar(context, 'Register Success');
           isLoading = false;
         } else if (state is RegisterFailure) {
-          showSnackBar(context, state.errMassage);
+          showFailureSnackBar(context, state.errMassage);
           isLoading = false;
         }
         if(state is passwordIsSeen){

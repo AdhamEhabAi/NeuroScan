@@ -1,6 +1,8 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
-import 'package:animation/core/widgets/show_snack_bar.dart';
+import 'package:animation/core/widgets/show_failure_snack_bar.dart';
+import 'package:animation/core/widgets/show_hint_snack_bar.dart';
+import 'package:animation/core/widgets/show_success_snack_bar.dart';
 import 'package:animation/features/Autism/presentation/manager/autism_cubit.dart';
 import 'package:animation/features/home/presentation/views/home_view.dart';
 import 'package:animation/features/tumor_stepper/presentation/views/widgets/patient_result_widget.dart';
@@ -37,10 +39,10 @@ class ResultView extends StatelessWidget {
         listener: (context, state) {
           if(state is AutismPatientInfoSaved)
           {
-            showSnackBar(context,'The Patient\'s data saved successfully');
+            showSuccessSnackBar(context,'The Patient\'s data saved successfully');
             Get.offAll(const HomeScreen());
           }else if (state is AutismPatientInfoSavingFailure){
-            showSnackBar(context,state.errMassage);
+            showFailureSnackBar(context,state.errMassage);
           }
         },
         builder: (context, state) {
@@ -105,6 +107,7 @@ class ResultView extends StatelessWidget {
                       text: 'New Patient',
                       ontap: () {
                         Get.offAll(const HomeScreen());
+                        showHintSnackBar(context, 'Let\'s check new patient');
                       },
                     ),
                   ],
