@@ -2,6 +2,7 @@ import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/top_cliper.dart';
 import 'package:animation/features/Alzheimers_stepper/presentation/views/stepper_view.dart';
 import 'package:animation/features/Autism/presentation/views/autism_patient_info_view.dart';
+import 'package:animation/features/Stroke/presentation/views/image_or_questions_view.dart';
 import 'package:animation/features/home/presentation/views/widgets/choose_diseese_square.dart';
 import 'package:animation/features/home/presentation/views/widgets/home_view_drawer.dart';
 import 'package:animation/features/tumor_stepper/presentation/views/stepper_view.dart';
@@ -72,34 +73,59 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 20, color: Colors.grey.withOpacity(.7)),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ChooseDiseaseSquare(
-                            onTap: () {
-                              Get.to(const TumorStepperView(),
-                                  transition: Transition.rightToLeftWithFade);
-                            },
-                            img: 'assets/images/tumor.png',
-                            squareColor: kSecondryColor,
-                            txt: 'Brain Tumor'),
-                        ChooseDiseaseSquare(
-                            onTap: () {
-                              Get.to(const AlzheimerStepperView(),
-                                  transition: Transition.rightToLeftWithFade);
-                            },
-                            img: 'assets/images/alzheimer.png',
-                            squareColor: kPrimaryColor,
-                            txt: 'Alzheimer'),
-                        ChooseDiseaseSquare(
-                            onTap: () {
-                              Get.to(const AutismPatientInfoView(),
-                                  transition: Transition.rightToLeftWithFade);
-                            },
-                            img: 'assets/images/autism.png',
-                            squareColor: Colors.cyan,
-                            txt: 'Autism'),
-                      ],
+                    SizedBox(
+                      height: 120,
+                      child: CustomScrollView(
+                        clipBehavior: Clip.none,
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ChooseDiseaseSquare(
+                                    onTap: () {
+                                      Get.to(const TumorStepperView(),
+                                          transition: Transition.rightToLeftWithFade);
+                                    },
+                                    img: 'assets/images/tumor.png',
+                                    squareColor: kSecondryColor,
+                                    txt: 'Brain Tumor'),
+                                SizedBox(width: 5,),
+                                ChooseDiseaseSquare(
+                                    onTap: () {
+                                      Get.to(const AlzheimerStepperView(),
+                                          transition: Transition.rightToLeftWithFade);
+                                    },
+                                    img: 'assets/images/alzheimer.png',
+                                    squareColor: kPrimaryColor,
+                                    txt: 'Alzheimer'),
+                                SizedBox(width: 5,),
+
+                                ChooseDiseaseSquare(
+                                    onTap: () {
+                                      Get.to(const AutismPatientInfoView(),
+                                          transition: Transition.rightToLeftWithFade);
+                                    },
+                                    img: 'assets/images/autism.png',
+                                    squareColor: Colors.cyan,
+                                    txt: 'Autism'),
+                                SizedBox(width: 5,),
+
+                                ChooseDiseaseSquare(
+                                    onTap: () {
+                                      Get.to(const ImageOrQuestionView(),
+                                          transition: Transition.rightToLeftWithFade);
+                                    },
+                                    img: 'assets/images/brain.png',
+                                    squareColor: Colors.redAccent,
+                                    txt: 'Stroke'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

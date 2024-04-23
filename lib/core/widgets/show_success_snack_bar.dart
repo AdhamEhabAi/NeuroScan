@@ -10,7 +10,6 @@ void showSuccessSnackBar(BuildContext context,String message) {
         children: [
           Container(
             padding: EdgeInsets.only(left: 30, top: 12, bottom: 12, right: 8),
-            height: 80,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.black,

@@ -17,15 +17,14 @@ class ResultView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AlzheimerStepperCubit, AlzheimerStepperState>(
       listener: (context, state) {
-        if(state is AlzheimerPatientInfoSaved)
-        {
+        if (state is AlzheimerPatientInfoSaved) {
           BlocProvider.of<AlzheimerStepperCubit>(context).currentStep = 0;
-          BlocProvider.of<AlzheimerStepperCubit>(context).selectedImage =
-          null;
-          showSuccessSnackBar(context,'The Patient\'s data saved successfully');
+          BlocProvider.of<AlzheimerStepperCubit>(context).selectedImage = null;
+          showSuccessSnackBar(
+              context, 'The Patient\'s data saved successfully');
           Get.offAll(const HomeScreen());
-        }else if (state is AlzheimerPatientInfoSavingFailure){
-          showFailureSnackBar(context,state.errMassage);
+        } else if (state is AlzheimerPatientInfoSavingFailure) {
+          showFailureSnackBar(context, state.errMassage);
         }
       },
       builder: (context, state) {
@@ -56,8 +55,7 @@ class ResultView extends StatelessWidget {
                 height: 10,
               ),
               PatientResultWidget(
-                  label: 'Age',
-                  value: patientInfo.age.round().toString()),
+                  label: 'Age', value: patientInfo.age.round().toString()),
               const SizedBox(
                 height: 10,
               ),
@@ -68,25 +66,28 @@ class ResultView extends StatelessWidget {
                 height: 10,
               ),
               PatientResultWidget(
-                  label: 'Phone Number',
-                  value: patientInfo.userNumber),
+                  label: 'Phone Number', value: patientInfo.userNumber),
               const SizedBox(
                 height: 10,
               ),
               const PatientResultWidget(label: 'Result', value: 'False'),
-              CustomButton(text: 'Save', backGroundColor: kSecondryColor,ontap: (){
-                BlocProvider.of<AlzheimerStepperCubit>(context)
-                    .savePatientDataToCloud(patientInfo: patientInfo);
-              }),
+              CustomButton(
+                  text: 'Save',
+                  backGroundColor: kSecondryColor,
+                  ontap: () {
+                    BlocProvider.of<AlzheimerStepperCubit>(context)
+                        .savePatientDataToCloud(patientInfo: patientInfo);
+                  }),
               const SizedBox(
                 height: 15,
               ),
               CustomButton(
                 text: 'New Patient',
                 ontap: () {
-                  BlocProvider.of<AlzheimerStepperCubit>(context).currentStep = 0;
-                  BlocProvider.of<AlzheimerStepperCubit>(context).selectedImage =
-                  null;
+                  BlocProvider.of<AlzheimerStepperCubit>(context).currentStep =
+                      0;
+                  BlocProvider.of<AlzheimerStepperCubit>(context)
+                      .selectedImage = null;
                   Get.offAll(const HomeScreen());
                 },
               ),

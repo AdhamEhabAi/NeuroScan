@@ -37,12 +37,12 @@ class ResultView extends StatelessWidget {
       ),
       body: BlocConsumer<AutismCubit, AutismState>(
         listener: (context, state) {
-          if(state is AutismPatientInfoSaved)
-          {
-            showSuccessSnackBar(context,'The Patient\'s data saved successfully');
+          if (state is AutismPatientInfoSaved) {
+            showSuccessSnackBar(
+                context, 'The Patient\'s data saved successfully');
             Get.offAll(const HomeScreen());
-          }else if (state is AutismPatientInfoSavingFailure){
-            showFailureSnackBar(context,state.errMassage);
+          } else if (state is AutismPatientInfoSavingFailure) {
+            showFailureSnackBar(context, state.errMassage);
           }
         },
         builder: (context, state) {
