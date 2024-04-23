@@ -55,77 +55,108 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     RichText(
                       text: const TextSpan(
-                        text: 'Start ',
+                        text: 'Empower ',
                         style: TextStyle(
                             color: kSecondryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 40),
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'assessing lesions',
+                            text: 'Mental Wellness.',
                             style: TextStyle(color: kPrimaryColor),
                           ),
                         ],
                       ),
                     ),
                     Text(
-                      'Pick your focus: Alzheimer\'s, autism, or brain tumor, in our health app.',
+                      'Pick your focus: Alzheimer\'s, autism, stroke, or brain tumor, in our health app.',
                       style: TextStyle(
                           fontSize: 20, color: Colors.grey.withOpacity(.7)),
                     ),
-                    SizedBox(
-                      height: 120,
-                      child: CustomScrollView(
-                        clipBehavior: Clip.none,
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ChooseDiseaseSquare(
-                                    onTap: () {
-                                      Get.to(const TumorStepperView(),
-                                          transition: Transition.rightToLeftWithFade);
-                                    },
-                                    img: 'assets/images/tumor.png',
-                                    squareColor: kSecondryColor,
-                                    txt: 'Brain Tumor'),
-                                SizedBox(width: 5,),
-                                ChooseDiseaseSquare(
-                                    onTap: () {
-                                      Get.to(const AlzheimerStepperView(),
-                                          transition: Transition.rightToLeftWithFade);
-                                    },
-                                    img: 'assets/images/alzheimer.png',
-                                    squareColor: kPrimaryColor,
-                                    txt: 'Alzheimer'),
-                                SizedBox(width: 5,),
-
-                                ChooseDiseaseSquare(
-                                    onTap: () {
-                                      Get.to(const AutismPatientInfoView(),
-                                          transition: Transition.rightToLeftWithFade);
-                                    },
-                                    img: 'assets/images/autism.png',
-                                    squareColor: Colors.cyan,
-                                    txt: 'Autism'),
-                                SizedBox(width: 5,),
-
-                                ChooseDiseaseSquare(
-                                    onTap: () {
-                                      Get.to(const ImageOrQuestionView(),
-                                          transition: Transition.rightToLeftWithFade);
-                                    },
-                                    img: 'assets/images/brain.png',
-                                    squareColor: Colors.redAccent,
-                                    txt: 'Stroke'),
-                              ],
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Choose disease',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                            Icon(
+                              Icons.arrow_forward_outlined,
+                              color: Colors.black.withOpacity(.5),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 120,
+                          child: CustomScrollView(
+                            clipBehavior: Clip.none,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            slivers: [
+                              SliverToBoxAdapter(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ChooseDiseaseSquare(
+                                        onTap: () {
+                                          Get.to(const TumorStepperView(),
+                                              transition: Transition
+                                                  .rightToLeftWithFade);
+                                        },
+                                        img: 'assets/images/tumor.png',
+                                        squareColor: kSecondryColor,
+                                        txt: 'Brain Tumor'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ChooseDiseaseSquare(
+                                        onTap: () {
+                                          Get.to(const AlzheimerStepperView(),
+                                              transition: Transition
+                                                  .rightToLeftWithFade);
+                                        },
+                                        img: 'assets/images/alzheimer.png',
+                                        squareColor: kPrimaryColor,
+                                        txt: 'Alzheimer'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ChooseDiseaseSquare(
+                                        onTap: () {
+                                          Get.to(const AutismPatientInfoView(),
+                                              transition: Transition
+                                                  .rightToLeftWithFade);
+                                        },
+                                        img: 'assets/images/autism.png',
+                                        squareColor: Colors.cyan,
+                                        txt: 'Autism'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ChooseDiseaseSquare(
+                                        onTap: () {
+                                          Get.to(const ImageOrQuestionView(),
+                                              transition: Transition
+                                                  .rightToLeftWithFade);
+                                        },
+                                        img: 'assets/images/brain.png',
+                                        squareColor: Colors.redAccent,
+                                        txt: 'Stroke'),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -138,7 +169,7 @@ class HomeScreen extends StatelessWidget {
               child: ClipPath(
                 clipper: TopClipper(),
                 child: Container(
-                  height: 300,
+                  height: 280,
                   decoration: const BoxDecoration(
                     color: kPrimaryColor,
                   ),
