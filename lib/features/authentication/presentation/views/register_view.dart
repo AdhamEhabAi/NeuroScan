@@ -19,12 +19,13 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController confirmPassController = TextEditingController();
+
   String? email;
   String? password;
   bool isLoading = false;
   bool isSeen = false;
   GlobalKey<FormState> formKey = GlobalKey();
-
+  
   RegisterPage({super.key});
 
   @override

@@ -3,6 +3,7 @@ import 'package:animation/core/widgets/top_cliper.dart';
 import 'package:animation/features/Alzheimers_stepper/presentation/views/stepper_view.dart';
 import 'package:animation/features/Autism/presentation/views/autism_patient_info_view.dart';
 import 'package:animation/features/Stroke/presentation/views/image_or_questions_view.dart';
+import 'package:animation/features/Stroke/presentation/views/stroke_patient_info_view.dart';
 import 'package:animation/features/home/presentation/views/widgets/choose_diseese_square.dart';
 import 'package:animation/features/home/presentation/views/widgets/home_view_drawer.dart';
 import 'package:animation/features/tumor_stepper/presentation/views/stepper_view.dart';
@@ -143,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     ChooseDiseaseSquare(
                                         onTap: () {
-                                          Get.to(const ImageOrQuestionView(),
+                                          Get.to(const StrokePatientInfoView(),
                                               transition: Transition
                                                   .rightToLeftWithFade);
                                         },

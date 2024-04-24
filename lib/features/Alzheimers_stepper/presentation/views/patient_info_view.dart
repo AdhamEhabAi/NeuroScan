@@ -24,6 +24,12 @@ class _PatientInfoViewState extends State<PatientInfoView> {
   final TextEditingController phoneNumberController = TextEditingController();
 
   double age = 20;
+  void dispose() {
+    firstNameController.dispose();
+    secondNameController.dispose();
+    phoneNumberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

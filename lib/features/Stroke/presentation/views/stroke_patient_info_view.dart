@@ -1,10 +1,10 @@
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
-import 'package:animation/features/Autism/presentation/manager/autism_cubit.dart';
-import 'package:animation/features/Autism/presentation/views/questions_view.dart';
-import 'package:animation/features/Autism/presentation/views/widgets/age_slider_widget.dart';
-import 'package:animation/features/Autism/presentation/views/widgets/sex_square_widget.dart';
+import 'package:animation/features/Stroke/presentation/manager/stroke_cubit.dart';
+import 'package:animation/features/Stroke/presentation/views/image_or_questions_view.dart';
+import 'package:animation/features/Stroke/presentation/views/widgets/age_slider_widget.dart';
+import 'package:animation/features/Stroke/presentation/views/widgets/sex_square_widget.dart';
 import 'package:animation/features/authentication/presentation/views/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +12,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as trans;
 import 'package:intl/intl.dart';
 
-class AutismPatientInfoView extends StatefulWidget {
-  const AutismPatientInfoView({super.key});
+class StrokePatientInfoView extends StatefulWidget {
+  const StrokePatientInfoView({super.key});
 
   @override
-  State<AutismPatientInfoView> createState() => _AutismPatientInfoViewState();
+  State<StrokePatientInfoView> createState() => _StrokePatientInfoViewState();
 }
 
-class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
+class _StrokePatientInfoViewState extends State<StrokePatientInfoView> {
   bool isMale = true;
   GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController firstNameController = TextEditingController();
@@ -54,9 +54,9 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
           leading: IconButton(
               onPressed: () {
                 trans.Get.back();
-                BlocProvider.of<AutismCubit>(context).selectedAnswer = null;
-                BlocProvider.of<AutismCubit>(context).answers = [];
-                BlocProvider.of<AutismCubit>(context).currentQuestionIndex = 0;
+                BlocProvider.of<StrokeCubit>(context).selectedAnswer = null;
+                BlocProvider.of<StrokeCubit>(context).answers = [];
+                BlocProvider.of<StrokeCubit>(context).currentQuestionIndex = 0;
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -78,7 +78,6 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                     ),
                     CustomTextField(
                       prefix: const Icon(Icons.person),
-
                       controller: firstNameController,
                       textInputType: TextInputType.text,
                       labelText: 'First Name',
@@ -96,7 +95,6 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                     ),
                     CustomTextField(
                       prefix: const Icon(Icons.person),
-
                       controller: secondNameController,
                       textInputType: TextInputType.text,
                       labelText: 'Last Name',
@@ -119,7 +117,7 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                       labelText: 'Phone Number',
                       hintText: 'Phone Number',
                       validator: (value) {
-                        RegExp regExp = RegExp(r'^(012|010|011|015)\d{8}$');
+                        RegExp regExp = RegExp(r"^(012|010|011|015)\d{8}$");
                         if (value!.isEmpty) {
                           return 'This Field is required';
                         } else if (regExp.hasMatch(value)) {
@@ -129,7 +127,7 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                         }
                       },
                     ),
-                    AgeSliderWidget(age: age),
+                    StrokeAgeSliderWidget(age: age),
                     const SizedBox(
                       height: 20,
                     ),
@@ -144,7 +142,7 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SexSquareWidget(
+                        StrokeSexSquareWidget(
                           img: 'assets/images/man.png',
                           gender: 'Male',
                           isMale: isMale,
@@ -154,7 +152,7 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                             });
                           },
                         ),
-                        SexSquareWidget(
+                        StrokeSexSquareWidget(
                           img: 'assets/images/hairstyle.png',
                           gender: 'Female',
                           isMale: !isMale,
@@ -170,7 +168,7 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                       height: 40,
                     ),
                     CustomButton(
-                        text: 'Questions',
+                        text: 'Let\'s Start',
                         ontap: () {
                           if (formKey.currentState!.validate()) {
                             String formattedDate =
@@ -179,21 +177,21 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                             String? userId =
                                 FirebaseAuth.instance.currentUser?.uid;
 
-                            BlocProvider.of<AutismCubit>(context)
+                            BlocProvider.of<StrokeCubit>(context)
                                 .setPatientInfo(
                               patient: PatientInfo(
                                 userNumber: phoneNumberController.text,
                                 userId: userId!,
-                                result: 'true',
-                                disease: 'Autism',
+                                result: 'false',
+                                disease: 'Stroke',
                                 date: formattedDate,
                                 fName: firstNameController.text,
                                 lName: secondNameController.text,
-                                age: BlocProvider.of<AutismCubit>(context).age!,
+                                age: BlocProvider.of<StrokeCubit>(context).age!,
                                 isMale: isMale,
                               ),
                             );
-                            trans.Get.to(const QuestionsView(),
+                            trans.Get.to(const ImageOrQuestionView(),
                                 transition: trans.Transition.rightToLeft);
                           }
                         }),

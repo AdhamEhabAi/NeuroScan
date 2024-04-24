@@ -1,7 +1,6 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-
 class CustomTextField extends StatelessWidget {
   CustomTextField(
       {this.controller,
@@ -9,11 +8,11 @@ class CustomTextField extends StatelessWidget {
       super.key,
       this.hintText,
       this.prefix,
-        this.suffix,
+      this.suffix,
       this.labelText,
       this.onChanged,
       this.obsecureText = false,
-        required this.textInputType});
+      this.textInputType});
   String? labelText;
   String? hintText;
   FormFieldValidator<String>? validator;
@@ -22,7 +21,7 @@ class CustomTextField extends StatelessWidget {
   Widget? suffix;
   bool obsecureText;
   TextEditingController? controller = TextEditingController();
-  final TextInputType textInputType;
+  TextInputType? textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         obscureText: obsecureText,
         decoration: InputDecoration(
-          focusedBorder:  OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: kPrimaryColor),
           ),
@@ -54,7 +53,9 @@ class CustomTextField extends StatelessWidget {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Colors.red, ),
+            borderSide: const BorderSide(
+              color: Colors.red,
+            ),
           ),
           labelText: labelText,
           labelStyle: const TextStyle(color: kPrimaryColor),

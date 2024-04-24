@@ -1,5 +1,6 @@
 import 'package:animation/features/Alzheimers_stepper/presentation/manager/Alzheimer_stepper_cubit.dart';
 import 'package:animation/features/Autism/presentation/manager/autism_cubit.dart';
+import 'package:animation/features/Stroke/presentation/manager/stroke_cubit.dart';
 import 'package:animation/features/authentication/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:animation/features/splash_and_getStarted/presentation/views/splash_view.dart';
 import 'package:animation/features/tumor_stepper/presentation/manager/tumor_stepper_cubit.dart';
@@ -35,6 +36,8 @@ class MyApp extends StatelessWidget {
           create: (context) => AlzheimerStepperCubit(),
         ),
         BlocProvider(create: (context) => AutismCubit(),),
+        BlocProvider(create: (context) => StrokeCubit(),),
+
       ],
       child: const GetMaterialApp(
         initialRoute: 'SplashPage',

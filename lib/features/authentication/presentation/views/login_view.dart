@@ -2,6 +2,7 @@ import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/show_failure_snack_bar.dart';
 import 'package:animation/core/widgets/show_success_snack_bar.dart';
 import 'package:animation/features/authentication/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:animation/features/authentication/presentation/views/forget_password_view.dart';
 import 'package:animation/features/authentication/presentation/views/register_view.dart';
 import 'package:animation/core/widgets/custom_button.dart';
 import 'package:animation/features/authentication/presentation/views/widgets/custom_text_field.dart';
@@ -36,16 +37,16 @@ class LoginPage extends StatelessWidget {
             const HomeScreen(),
             transition: trans.Transition.fadeIn,
           );
-          showSuccessSnackBar(context,'Login Success');
+          showSuccessSnackBar(context, 'Login Success');
           isLoading = false;
         } else if (state is LoginFailure) {
           showFailureSnackBar(context, state.errMassage);
           isLoading = false;
         }
 
-        if(state is passwordIsSeen){
+        if (state is passwordIsSeen) {
           isSeen = true;
-        }else if (state is passwordIsHidden){
+        } else if (state is passwordIsHidden) {
           isSeen = false;
         }
       },
@@ -111,16 +112,38 @@ class LoginPage extends StatelessWidget {
                           controller: passController,
                           prefix: const Icon(Icons.lock_outline_rounded),
                           suffix: InkWell(
-                            onTap: (){
-                              BlocProvider.of<AuthCubit>(context).changePasswordState(isSeen: isSeen);
+                            onTap: () {
+                              BlocProvider.of<AuthCubit>(context)
+                                  .changePasswordState(isSeen: isSeen);
                             },
-                              child: isSeen == false ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                            child: isSeen == false
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off),
                           ),
-                          obsecureText: isSeen == false ? true: false,
+                          obsecureText: isSeen == false ? true : false,
                           hintText: 'Password',
                           labelText: 'Password'),
                       const SizedBox(
-                        height: 30,
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              Get.to(ForgetPasswordView(),transition: trans.Transition.fadeIn);
+                            },
+                            child: Text(
+                              'Forget password ?',
+                              style: TextStyle(
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 15,
                       ),
                       CustomButton(
                         ontap: () async {

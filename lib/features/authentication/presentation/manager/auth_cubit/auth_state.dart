@@ -32,6 +32,13 @@ class GetUserEmailFailure extends AuthState {
 
   GetUserEmailFailure({required this.errMassage});
 }
+class ResetEmailSuccess extends AuthState {}
+class ResetEmailFailure extends AuthState {
+ final String errMassage;
+
+  ResetEmailFailure({required this.errMassage});
+}
+
 
 
 
