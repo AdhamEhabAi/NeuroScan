@@ -1,8 +1,8 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class InstructionWiddget extends StatelessWidget {
-  const InstructionWiddget({super.key, required this.img, required this.head, required this.text});
+class InstructionWidget extends StatelessWidget {
+  const InstructionWidget({super.key, required this.img, required this.head, required this.text});
   final String img;
   final String head;
   final String text;

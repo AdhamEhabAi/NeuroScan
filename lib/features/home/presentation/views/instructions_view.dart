@@ -35,7 +35,7 @@ class InstructionsView extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            const InstructionWiddget(
+            const InstructionWidget(
                 img: 'assets/images/number-1.png',
                 head: 'Authentication',
                 text:
@@ -53,7 +53,7 @@ class InstructionsView extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const InstructionWiddget(
+            const InstructionWidget(
                 img: 'assets/images/number-2.png',
                 head: 'Choose Disease',
                 text:
@@ -71,7 +71,7 @@ class InstructionsView extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const InstructionWiddget(
+            const InstructionWidget(
                 img: 'assets/images/number-3.png',
                 head: 'Analysis',
                 text:
@@ -89,7 +89,7 @@ class InstructionsView extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const InstructionWiddget(
+            const InstructionWidget(
                 img: 'assets/images/number-4.png',
                 head: 'Result',
                 text:

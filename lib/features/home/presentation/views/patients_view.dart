@@ -1,5 +1,6 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/utils/functions.dart';
+import 'package:animation/features/home/presentation/views/single_patient_view.dart';
 import 'package:animation/features/home/presentation/views/widgets/patient_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,6 @@ class PatientsView extends StatelessWidget {
     CollectionReference patients =
         FirebaseFirestore.instance.collection('patients');
     String? userId = FirebaseAuth.instance.currentUser?.uid;
-
 
     return Scaffold(
       backgroundColor: const Color(0xffD3E7EE),
@@ -39,7 +39,7 @@ class PatientsView extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: patients.where('userId',isEqualTo: userId).snapshots(),
+        stream: patients.where('userId', isEqualTo: userId).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Center(child: Text('Something went wrong'));
@@ -48,10 +48,12 @@ class PatientsView extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if(snapshot.data!.docs.isEmpty)
-          {
+          if (snapshot.data!.docs.isEmpty) {
             return const Center(
-              child: Text('No patients available',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),
+              child: Text(
+                'No patients available',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
             );
           }
 
@@ -60,6 +62,9 @@ class PatientsView extends StatelessWidget {
               Map<String, dynamic> data =
                   document.data() as Map<String, dynamic>;
               return PatientWidget(
+                onPress: () {
+                  Get.to(SinglePatientView(), transition: Transition.fade);
+                },
                 delete: () {
                   patients.doc(document.id).delete();
                 },
@@ -68,7 +73,8 @@ class PatientsView extends StatelessWidget {
                 },
                 date: data['date'] ?? '',
                 disease: data['disease'] ?? '',
-                name: '${data['fName']} ${data['lName'][0].toUpperCase()+'.'}',
+                name:
+                    '${data['fName']} ${data['lName'][0].toUpperCase() + '.'}',
                 result: data['result'] ?? '',
               );
             }).toList(),
