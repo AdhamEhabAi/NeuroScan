@@ -63,7 +63,8 @@ class ImageOrQuestionView extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    trans.Get.to(UploadImageView(),transition: trans.Transition.rightToLeft);
+                    trans.Get.to(UploadImageView(),
+                        transition: trans.Transition.rightToLeft);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width / 2.5,
@@ -94,7 +95,8 @@ class ImageOrQuestionView extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    trans.Get.to(StrokeQuestionsView(),transition: trans.Transition.rightToLeft);
+                    trans.Get.to(StrokeQuestionsView(),
+                        transition: trans.Transition.rightToLeft);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width / 2.5,

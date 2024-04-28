@@ -1,3 +1,4 @@
+import 'package:animation/core/utils/functions.dart';
 import 'package:flutter/material.dart';
 
 class SinglePatientHeaderWidget extends StatelessWidget {
@@ -36,9 +37,13 @@ class SinglePatientHeaderWidget extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {}, icon: Icon(Icons.send_outlined)),
+                        onPressed: () {
+                          openWhatsAppChat(phoneNumber:  pNumber);
+                        }, icon: Icon(Icons.send_outlined)),
                     IconButton(
-                        onPressed: () {}, icon: Icon(Icons.call_outlined)),
+                        onPressed: () {
+                          makePhoneCall(phoneNumber: pNumber);
+                        }, icon: Icon(Icons.call_outlined)),
                   ],
                 ),
               ],

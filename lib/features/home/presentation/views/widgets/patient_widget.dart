@@ -50,7 +50,7 @@ class PatientWidget extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               overflow: TextOverflow.ellipsis,
-                              fontSize: 18),
+                              fontSize: 16),
                         ),
                         Text(
                           disease,
@@ -62,40 +62,40 @@ class PatientWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(date),
+                  Text(
+                    result,
+                    style: const TextStyle(color: Colors.redAccent),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Row(
                   children: [
-                    Text(date),
-                    Text(
-                      result,
-                      style: const TextStyle(color: Colors.redAccent),
+                    IconButton(
+                        onPressed: delete,
+                        icon: const Icon(
+                          Icons.delete,
+                          size: 18,
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Container(
+                        width: 1,
+                        height: double.infinity,
+                        decoration:
+                            BoxDecoration(color: Colors.grey.withOpacity(.3)),
+                      ),
                     ),
+                    IconButton(
+                        onPressed: onTap,
+                        icon: const ImageIcon(
+                            AssetImage('assets/images/whatsapp.png'),))
                   ],
                 ),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: delete,
-                      icon: const Icon(
-                        Icons.delete,
-                        size: 18,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      width: 1,
-                      height: double.infinity,
-                      decoration:
-                          BoxDecoration(color: Colors.grey.withOpacity(.3)),
-                    ),
-                  ),
-                  IconButton(
-                      onPressed: onTap,
-                      icon: const ImageIcon(
-                          AssetImage('assets/images/whatsapp.png')))
-                ],
               ),
             ],
           ),

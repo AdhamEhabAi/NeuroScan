@@ -9,3 +9,14 @@ void openWhatsAppChat({required String phoneNumber}) async {
     throw 'Could not launch $url';
   }
 }
+Future<void> makePhoneCall({required String phoneNumber}) async {
+  final Uri launchUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+  if (await canLaunchUrl(launchUri)) {
+    await launchUrl(launchUri);
+  } else {
+    throw 'Could not launch $launchUri';
+  }
+}
