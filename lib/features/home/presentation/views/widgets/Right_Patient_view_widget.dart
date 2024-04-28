@@ -32,23 +32,62 @@ class RightPatientViewWidget extends StatelessWidget {
               Row(
                 children: [
                   ImageIcon(AssetImage('assets/images/full-stop.png')),
-                  Text('MMSE',),
+                  if (disease == 'Alzheimer')
+                    Text(
+                      'MMSE',
+                    )
+                  else if (disease == 'Tumor')
+                    Text(
+                      'MRI',
+                    )
+                  else if (disease == 'Stroke')
+                    Text(
+                      'MRI',
+                    )
+                  else if (disease == 'Autism')
+                    Text(
+                      'M-CHAT',
+                    ),
                 ],
               ),
               Row(
                 children: [
                   ImageIcon(AssetImage('assets/images/full-stop.png')),
-                  Text('MoCA'),
+                  if (disease == 'Alzheimer')
+                    Text('MoCA')
+                  else if (disease == 'Tumor')
+                    Text(
+                      'PET',
+                    )
+                  else if (disease == 'Stroke')
+                    Text(
+                      'CTA',
+                    )
+                  else if (disease == 'Autism')
+                    Text(
+                      'ASQ',
+                    ),
                 ],
               ),
               Row(
                 children: [
                   ImageIcon(AssetImage('assets/images/full-stop.png')),
-                  Text('MRI'),
+                  if (disease == 'Alzheimer')
+                    Text('MRI')
+                  else if (disease == 'Tumor')
+                    Text(
+                      'MRS',
+                    )
+                  else if (disease == 'Stroke')
+                    Text(
+                      'ECG/EKG',
+                    )
+                  else if (disease == 'Autism')
+                    Text(
+                      'ADOS',
+                    ),
                 ],
               ),
-
-
             ],
           ),
         ),

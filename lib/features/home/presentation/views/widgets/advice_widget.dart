@@ -28,7 +28,7 @@ class AdviceWidget extends StatelessWidget {
                 head,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 14,
                   color: Colors.black,
                 ),
               ),
@@ -40,7 +40,7 @@ class AdviceWidget extends StatelessWidget {
         ),
         Text(
           text,
-          style: const TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey,),
         ),
         SizedBox(height: 10,),
       ],

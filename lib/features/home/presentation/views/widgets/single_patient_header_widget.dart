@@ -30,6 +30,7 @@ class SinglePatientHeaderWidget extends StatelessWidget {
                 Text(
                   '${fName} ${lName}',
                   style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     fontWeight: FontWeight.w400,
                     fontSize: 24,
                   ),

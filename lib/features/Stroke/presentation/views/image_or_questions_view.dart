@@ -50,7 +50,7 @@ class ImageOrQuestionView extends StatelessWidget {
                   'You prefer image or questions ?',
                   style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
               )),
