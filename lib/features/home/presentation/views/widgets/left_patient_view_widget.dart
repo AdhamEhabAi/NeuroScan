@@ -2,7 +2,8 @@ import 'package:animation/features/home/presentation/views/widgets/advice_widget
 import 'package:flutter/material.dart';
 
 class LeftPatientViewWidget extends StatelessWidget {
-  const LeftPatientViewWidget({super.key});
+  const LeftPatientViewWidget({super.key, required this.disease});
+  final String disease;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,14 @@ class LeftPatientViewWidget extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('Alzheimer\'s from the first degree'),
+                  Row(
+                    children: [
+                      ImageIcon(AssetImage('assets/images/full-stop.png')),
+                      Text('${disease}',style: TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),),
+                    ],
+                  ),
                 ],
               ),
               SizedBox(height: 20), // Space between sections

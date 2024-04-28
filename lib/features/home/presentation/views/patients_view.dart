@@ -63,7 +63,7 @@ class PatientsView extends StatelessWidget {
                   document.data() as Map<String, dynamic>;
               return PatientWidget(
                 onPress: () {
-                  Get.to(SinglePatientView(), transition: Transition.fade);
+                  Get.to(SinglePatientView(data: data), transition: Transition.fade);
                 },
                 delete: () {
                   patients.doc(document.id).delete();
