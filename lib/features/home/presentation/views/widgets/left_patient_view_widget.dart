@@ -13,7 +13,7 @@ class LeftPatientViewWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

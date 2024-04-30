@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:animation/core/utils/constants.dart';
 import 'package:animation/features/splash_and_getStarted/presentation/views/get_started.dart';
 import 'package:animation/features/splash_and_getStarted/presentation/views/widgets/splash_view_body.dart';
 import 'package:flutter/material.dart';

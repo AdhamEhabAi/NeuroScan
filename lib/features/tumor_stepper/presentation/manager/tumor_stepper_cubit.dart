@@ -14,7 +14,7 @@ class TumorStepperCubit extends Cubit<TumorStepperState> {
   int currentStep = 0;
   File? selectedImage;
   PatientInfo? patientInfo;
-  double? age;
+  double age = 20;
 
   void setPatientAge({required double patientAge})
   {

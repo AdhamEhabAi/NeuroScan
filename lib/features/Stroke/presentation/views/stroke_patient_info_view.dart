@@ -182,12 +182,11 @@ class _StrokePatientInfoViewState extends State<StrokePatientInfoView> {
                               patient: PatientInfo(
                                 userNumber: phoneNumberController.text,
                                 userId: userId!,
-                                result: 'false',
                                 disease: 'Stroke',
                                 date: formattedDate,
                                 fName: firstNameController.text,
                                 lName: secondNameController.text,
-                                age: BlocProvider.of<StrokeCubit>(context).age!,
+                                age: BlocProvider.of<StrokeCubit>(context).age,
                                 isMale: isMale,
                               ),
                             );

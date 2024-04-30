@@ -12,8 +12,8 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class StrokeResultView extends StatelessWidget {
-  const StrokeResultView({super.key});
-
+  const StrokeResultView({super.key, required this.result});
+  final String result;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +92,7 @@ class StrokeResultView extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    const PatientResultWidget(label: 'Result', value: 'False'),
+                    PatientResultWidget(label: 'Result', value: result),
                     CustomButton(
                         text: 'Save',
                         backGroundColor: kSecondryColor,

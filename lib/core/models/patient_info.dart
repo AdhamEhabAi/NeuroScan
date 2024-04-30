@@ -4,15 +4,14 @@ class PatientInfo {
   final bool isMale;
   final String date;
   final String disease;
-  final String result;
+  String? result;
   final String userId;
   final String userNumber;
 
   PatientInfo(
       {required this.fName,
        required this.userNumber,
-      required this.userId,
-      required this.result,
+      required this.userId, this.result,
       required this.lName,
       required this.date,
       required this.disease,

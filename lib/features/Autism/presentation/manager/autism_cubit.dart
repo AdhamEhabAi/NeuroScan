@@ -14,7 +14,7 @@ class AutismCubit extends Cubit<AutismState> {
   List<dynamic> answers = [];
   int currentQuestionIndex = 0;
   dynamic selectedAnswer;
-  double? age;
+  double age = 20;
 
 
 

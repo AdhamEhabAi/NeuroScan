@@ -26,6 +26,13 @@ class UploadImageView extends StatelessWidget {
         } else if (state is ImageRemoveSuccess) {
           showSuccessSnackBar(context, 'Image Remove Success');
         }
+        if (state is PredictionSuccess) {
+          showSuccessSnackBar(context, 'Prediction Success');
+          trans.Get.off(StrokeResultView(result: BlocProvider.of<StrokeCubit>(context).result),transition: trans.Transition.rightToLeft);
+        }else if(state is PredictionField){
+          showFailureSnackBar(context, state.errMassage);
+
+        }
       },
       builder: (context, state) {
         var selectedImage = BlocProvider.of<StrokeCubit>(context).selectedImage;
@@ -52,7 +59,7 @@ class UploadImageView extends StatelessWidget {
           ),
           body: Center(
             child: ModalProgressHUD(
-              inAsyncCall: state is ImageUploadLoading,
+              inAsyncCall: state is ImageUploadLoading ||state is PredictionLoading,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16),
                 child: Column(
@@ -97,8 +104,8 @@ class UploadImageView extends StatelessWidget {
                       backGroundColor: kSecondryColor,
                         text: 'Result',
                         ontap: () {
-                          if (selectedImage != null) {
-                            trans.Get.off(StrokeResultView(),transition: trans.Transition.rightToLeft);
+                          if (BlocProvider.of<StrokeCubit>(context).selectedImage != null) {
+                            BlocProvider.of<StrokeCubit>(context).getPredictionResult();
                           } else {
                             showHintSnackBar(context, 'Please Enter An Image');
                           }

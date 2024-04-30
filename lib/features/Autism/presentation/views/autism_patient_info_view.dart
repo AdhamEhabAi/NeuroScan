@@ -189,7 +189,7 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                                 date: formattedDate,
                                 fName: firstNameController.text,
                                 lName: secondNameController.text,
-                                age: BlocProvider.of<AutismCubit>(context).age!,
+                                age: BlocProvider.of<AutismCubit>(context).age,
                                 isMale: isMale,
                               ),
                             );

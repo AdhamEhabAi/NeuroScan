@@ -1,3 +1,4 @@
+import 'package:animation/core/utils/api_services.dart';
 import 'package:animation/features/Alzheimers_stepper/presentation/manager/Alzheimer_stepper_cubit.dart';
 import 'package:animation/features/Autism/presentation/manager/autism_cubit.dart';
 import 'package:animation/features/Stroke/presentation/manager/stroke_cubit.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AlzheimerStepperCubit(),
         ),
         BlocProvider(create: (context) => AutismCubit(),),
-        BlocProvider(create: (context) => StrokeCubit(),),
+        BlocProvider(create: (context) => StrokeCubit(ApiService(baseUrl: 'http://10.0.2.2:5000')),),
 
       ],
       child: const GetMaterialApp(
