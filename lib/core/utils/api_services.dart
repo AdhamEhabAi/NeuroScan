@@ -6,7 +6,7 @@ class ApiService {
 
   ApiService({required this.baseUrl});
 
-  Future<http.Response> postRequest({
+  Future<http.Response> postRequestImage({
     required String function,
     required File file,
   }) async {

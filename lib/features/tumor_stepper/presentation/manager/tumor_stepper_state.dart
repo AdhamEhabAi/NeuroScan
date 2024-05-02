@@ -45,3 +45,13 @@ class TumorPatientInfoSavingFailure extends TumorStepperState {
 }
 class TumorPatientInfoSaving extends TumorStepperState {}
 
+
+class PredictionLoading extends TumorStepperState {}
+class PredictionField extends TumorStepperState {
+  final String errMassage;
+
+  PredictionField({required this.errMassage});
+}
+class PredictionSuccess extends TumorStepperState {}
+
+

@@ -13,6 +13,7 @@ class SinglePatientView extends StatelessWidget {
         body: Column(
           children: [
             SinglePatientHeaderWidget(
+              result: data['result'],
               age: data['age'] ?? '',
               date: data['date'] ?? '',
               isMale: data['isMale'] ?? '',

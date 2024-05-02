@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:animation/core/models/patient_info.dart';
+import 'package:animation/core/models/prediction_model.dart';
+import 'package:animation/core/utils/api_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -10,11 +13,14 @@ import 'package:meta/meta.dart';
 part 'tumor_stepper_state.dart';
 
 class TumorStepperCubit extends Cubit<TumorStepperState> {
-  TumorStepperCubit() : super(TumorStepperInitial());
+  TumorStepperCubit(this.apiService) : super(TumorStepperInitial());
   int currentStep = 0;
   File? selectedImage;
   PatientInfo? patientInfo;
   double age = 20;
+  final ApiService apiService;
+  String result = '';
+
 
   void setPatientAge({required double patientAge})
   {
@@ -79,7 +85,7 @@ class TumorStepperCubit extends Cubit<TumorStepperState> {
         'fName': patientInfo.fName,
         'isMale': patientInfo.isMale,
         'lName': patientInfo.lName,
-        'result': patientInfo.result,
+        'result': result,
         'userId': patientInfo.userId,
         'number': '+2${patientInfo.userNumber}',
       });
@@ -88,6 +94,32 @@ class TumorStepperCubit extends Cubit<TumorStepperState> {
       emit(TumorPatientInfoSavingFailure(errMassage: e.toString()));
     }
   }
+  Future<void> getPredictionResult() async {
+    emit(PredictionLoading());
+    if (selectedImage == null) {
+      emit(
+          PredictionField(errMassage: 'No image selected')); // Corrected naming
+      return;
+    }
 
+    try {
+      final response = await apiService.postRequestImage(
+        function: 'predict_tumor',
+        file: selectedImage!, // Pass the file directly
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        final prediction = PredictionModel.fromJson(responseData);
+        result = prediction.prediction;
+        emit(PredictionSuccess()); // You can also emit with prediction details
+      } else {
+        emit(PredictionField(errMassage: 'Failed to get prediction'));
+      }
+    } catch (e) {
+      emit(PredictionField(errMassage: 'Failed to get prediction'));
+      print(e.toString()); // Proper error handling
+    }
+  }
 
 }

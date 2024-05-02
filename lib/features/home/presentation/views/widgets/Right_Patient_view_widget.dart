@@ -9,7 +9,7 @@ class RightPatientViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        color: Color(0xffD3E7EE).withOpacity(.6),
+        color: Color(0xffD3E7EE),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(

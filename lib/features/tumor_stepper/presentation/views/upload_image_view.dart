@@ -24,13 +24,19 @@ class UploadImageView extends StatelessWidget {
         } else if (state is ImageRemoveSuccess) {
           showSuccessSnackBar(context, 'Image Remove Success');
         }
+        if (state is PredictionSuccess) {
+          BlocProvider.of<TumorStepperCubit>(context).increaseStepper();
+          showSuccessSnackBar(context, 'Prediction Success');
+        } else if (state is PredictionField) {
+          showFailureSnackBar(context, state.errMassage);
+        }
       },
       builder: (context, state) {
         var selectedImage =
             BlocProvider.of<TumorStepperCubit>(context).selectedImage;
         return Center(
           child: ModalProgressHUD(
-            inAsyncCall: state is ImageUploadLoading,
+            inAsyncCall: state is ImageUploadLoading || state is PredictionLoading,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,7 +63,9 @@ class UploadImageView extends StatelessWidget {
                   height: 20,
                 ),
                 selectedImage != null
-                    ? TumorUploadedImage(selectedImage: selectedImage,)
+                    ? TumorUploadedImage(
+                        selectedImage: selectedImage,
+                      )
                     : ImageUploadWidget(onTab: () {
                         BlocProvider.of<TumorStepperCubit>(context)
                             .pickImageFromGallery();
@@ -75,9 +83,9 @@ class UploadImageView extends StatelessWidget {
                 CustomButton(
                     text: 'Continue',
                     ontap: () {
-                      if (selectedImage != null) {
-                        BlocProvider.of<TumorStepperCubit>(context)
-                            .increaseStepper();
+                      if (BlocProvider.of<TumorStepperCubit>(context).selectedImage != null) {
+                        BlocProvider.of<TumorStepperCubit>(context).getPredictionResult();
+
                       } else {
                         showHintSnackBar(context, 'Please Enter An Image');
                       }

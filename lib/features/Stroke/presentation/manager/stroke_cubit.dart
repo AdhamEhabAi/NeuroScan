@@ -105,7 +105,9 @@ class StrokeCubit extends Cubit<StrokeState> {
       if (answerSelected != null) {
         answers.add(answerSelected);
         emit(OutOfRange());
-        Get.off(StrokeResultView(result: result,));
+        Get.off(StrokeResultView(
+          result: result,
+        ));
         for (var answer in answers) {
           print(answer);
         }
@@ -121,28 +123,28 @@ class StrokeCubit extends Cubit<StrokeState> {
   Future<void> getPredictionResult() async {
     emit(PredictionLoading());
     if (selectedImage == null) {
-      emit(PredictionField(errMassage: 'No image selected'));  // Corrected naming
+      emit(
+          PredictionField(errMassage: 'No image selected')); // Corrected naming
       return;
     }
 
     try {
-      final response = await apiService.postRequest(
+      final response = await apiService.postRequestImage(
         function: 'predict_stroke',
-        file: selectedImage!,  // Pass the file directly
+        file: selectedImage!, // Pass the file directly
       );
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         final prediction = PredictionModel.fromJson(responseData);
         result = prediction.prediction;
-        emit(PredictionSuccess());  // You can also emit with prediction details
+        emit(PredictionSuccess()); // You can also emit with prediction details
       } else {
         emit(PredictionField(errMassage: 'Failed to get prediction'));
       }
     } catch (e) {
-      emit(PredictionField(errMassage: 'Error: $e'));
-      print(e.toString());// Proper error handling
+      emit(PredictionField(errMassage: 'Failed to get prediction'));
+      print(e.toString()); // Proper error handling
     }
   }
-
 }
