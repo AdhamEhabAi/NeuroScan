@@ -80,7 +80,7 @@ class QuestionsView extends StatelessWidget {
                                 questions[BlocProvider.of<AutismCubit>(context)
                                         .currentQuestionIndex]
                                     .answers[index]
-                            ? kSecondryColor
+                            ? kSecondaryColor
                             : Colors.white,
                         textColor: BlocProvider.of<AutismCubit>(context)
                                     .selectedAnswer ==
@@ -108,7 +108,7 @@ class QuestionsView extends StatelessWidget {
                     }
                   },
                   text: 'Next',
-                  backGroundColor: kSecondryColor,
+                  backGroundColor: kSecondaryColor,
                 )
 
               ],

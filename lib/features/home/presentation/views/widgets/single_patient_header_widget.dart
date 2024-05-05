@@ -59,7 +59,9 @@ class SinglePatientHeaderWidget extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(result,style: TextStyle(
+                        Text(result,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,

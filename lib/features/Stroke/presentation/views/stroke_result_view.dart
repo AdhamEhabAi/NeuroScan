@@ -95,7 +95,7 @@ class StrokeResultView extends StatelessWidget {
                     PatientResultWidget(label: 'Result', value: result),
                     CustomButton(
                         text: 'Save',
-                        backGroundColor: kSecondryColor,
+                        backGroundColor: kSecondaryColor,
                         ontap: () {
                           BlocProvider.of<StrokeCubit>(context)
                               .savePatientDataToCloud(patientInfo: patientInfo);

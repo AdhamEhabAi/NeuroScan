@@ -101,7 +101,7 @@ class UploadImageView extends StatelessWidget {
                     ),
 
                     CustomButton(
-                      backGroundColor: kSecondryColor,
+                      backGroundColor: kSecondaryColor,
                         text: 'Result',
                         ontap: () {
                           if (BlocProvider.of<StrokeCubit>(context).selectedImage != null) {

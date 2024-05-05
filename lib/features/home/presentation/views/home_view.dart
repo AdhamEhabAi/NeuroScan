@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                   Text(
                     'Neuro',
                     style: TextStyle(
-                        color: kSecondryColor,
+                        color: kSecondaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 28),
                   ),
@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                       text: const TextSpan(
                         text: 'Empower ',
                         style: TextStyle(
-                            color: kSecondryColor,
+                            color: kSecondaryColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 40),
                         children: <TextSpan>[
@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                                                   .rightToLeftWithFade);
                                         },
                                         img: 'assets/images/tumor.png',
-                                        squareColor: kSecondryColor,
+                                        squareColor: kSecondaryColor,
                                         txt: 'Brain Tumor'),
                                     SizedBox(
                                       width: 5,

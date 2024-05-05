@@ -24,13 +24,19 @@ class UploadImageView extends StatelessWidget {
         } else if (state is ImageRemoveSuccess) {
           showSuccessSnackBar(context, 'Image Remove Success');
         }
+        if (state is PredictionSuccess) {
+          BlocProvider.of<AlzheimerStepperCubit>(context).increaseStepper();
+          showSuccessSnackBar(context, 'Prediction Success');
+        } else if (state is PredictionField) {
+          showFailureSnackBar(context, state.errMassage);
+        }
       },
       builder: (context, state) {
         var selectedImage =
             BlocProvider.of<AlzheimerStepperCubit>(context).selectedImage;
         return Center(
           child: ModalProgressHUD(
-            inAsyncCall: state is ImageUploadLoading,
+            inAsyncCall: state is ImageUploadLoading || state is PredictionLoading,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -77,9 +83,8 @@ class UploadImageView extends StatelessWidget {
                 CustomButton(
                     text: 'Continue',
                     ontap: () {
-                      if (selectedImage != null) {
-                        BlocProvider.of<AlzheimerStepperCubit>(context)
-                            .increaseStepper();
+                      if (BlocProvider.of<AlzheimerStepperCubit>(context).selectedImage != null) {
+                        BlocProvider.of<AlzheimerStepperCubit>(context).getPredictionResult();
                       } else {
                         showHintSnackBar(context, 'Please Enter An Image');
                       }
@@ -89,7 +94,7 @@ class UploadImageView extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'Cancel',
-                  backGroundColor: kSecondryColor,
+                  backGroundColor: kSecondaryColor,
                   ontap: () {
                     BlocProvider.of<AlzheimerStepperCubit>(context)
                         .decreaseStepper();

@@ -34,6 +34,14 @@ class AlzheimerPatientInfoSavingFailure extends AlzheimerStepperState {
   AlzheimerPatientInfoSavingFailure({required this.errMassage});
 }
 
+class PredictionLoading extends AlzheimerStepperState {}
+class PredictionSuccess extends AlzheimerStepperState {}
+class PredictionField extends AlzheimerStepperState {
+  final String errMassage;
+
+  PredictionField({required this.errMassage});
+
+}
 
 
 

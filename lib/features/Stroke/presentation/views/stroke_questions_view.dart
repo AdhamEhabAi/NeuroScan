@@ -80,7 +80,7 @@ class StrokeQuestionsView extends StatelessWidget {
                             stokeQuestions[BlocProvider.of<StrokeCubit>(context)
                                         .currentQuestionIndex]
                                     .answers[index]
-                            ? kSecondryColor
+                            ? kSecondaryColor
                             : Colors.white,
                         textColor: BlocProvider.of<StrokeCubit>(context)
                                     .selectedAnswer ==
@@ -108,7 +108,7 @@ class StrokeQuestionsView extends StatelessWidget {
                     }
                   },
                   text: 'Next',
-                  backGroundColor: kSecondryColor,
+                  backGroundColor: kSecondaryColor,
                 )
 
               ],

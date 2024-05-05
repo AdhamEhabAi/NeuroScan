@@ -50,7 +50,7 @@ class _StrokeAgeSliderWidgetState extends State<StrokeAgeSliderWidget> {
         ),
         const SizedBox(height: 20,),
         Slider(
-          activeColor: kSecondryColor,
+          activeColor: kSecondaryColor,
           value: age,
           inactiveColor: Colors.grey,
           max: 90,

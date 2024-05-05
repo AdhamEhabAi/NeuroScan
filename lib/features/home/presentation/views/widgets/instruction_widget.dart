@@ -13,7 +13,7 @@ class InstructionWidget extends StatelessWidget {
       children: [
         ImageIcon(
           AssetImage(img),
-          color: kSecondryColor,
+          color: kSecondaryColor,
           size: 40,
         ),
         const SizedBox(width: 20),

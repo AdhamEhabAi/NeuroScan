@@ -70,10 +70,10 @@ class ResultView extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const PatientResultWidget(label: 'Result', value: 'False'),
+              PatientResultWidget(label: 'Result', value: BlocProvider.of<AlzheimerStepperCubit>(context).result),
               CustomButton(
                   text: 'Save',
-                  backGroundColor: kSecondryColor,
+                  backGroundColor: kSecondaryColor,
                   ontap: () {
                     BlocProvider.of<AlzheimerStepperCubit>(context)
                         .savePatientDataToCloud(patientInfo: patientInfo);

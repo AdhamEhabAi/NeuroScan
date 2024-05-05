@@ -85,7 +85,6 @@ class UploadImageView extends StatelessWidget {
                     ontap: () {
                       if (BlocProvider.of<TumorStepperCubit>(context).selectedImage != null) {
                         BlocProvider.of<TumorStepperCubit>(context).getPredictionResult();
-
                       } else {
                         showHintSnackBar(context, 'Please Enter An Image');
                       }
@@ -95,7 +94,7 @@ class UploadImageView extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'Cancel',
-                  backGroundColor: kSecondryColor,
+                  backGroundColor: kSecondaryColor,
                   ontap: () {
                     BlocProvider.of<TumorStepperCubit>(context)
                         .decreaseStepper();

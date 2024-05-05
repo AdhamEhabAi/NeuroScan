@@ -17,7 +17,7 @@ class AdviceWidget extends StatelessWidget {
           children: [
             ImageIcon(
               AssetImage(img),
-              color: kSecondryColor,
+              color: kSecondaryColor,
               size: 20,
             ),
             SizedBox(

@@ -14,7 +14,7 @@ class CustomStepper extends StatelessWidget {
     return Theme(
       data: ThemeData(
         colorScheme: const ColorScheme.light(
-            background: kPrimaryColor, primary: kSecondryColor),
+            background: kPrimaryColor, primary: kSecondaryColor),
       ),
       child: Stepper(
         currentStep: currentStep,

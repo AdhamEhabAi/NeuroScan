@@ -95,7 +95,7 @@ class ResultView extends StatelessWidget {
                     const PatientResultWidget(label: 'Result', value: 'False'),
                     CustomButton(
                         text: 'Save',
-                        backGroundColor: kSecondryColor,
+                        backGroundColor: kSecondaryColor,
                         ontap: () {
                           BlocProvider.of<AutismCubit>(context)
                               .savePatientDataToCloud(patientInfo: patientInfo);

@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:animation/core/models/patient_info.dart';
+import 'package:animation/core/models/prediction_model.dart';
+import 'package:animation/core/utils/api_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -10,12 +12,13 @@ import 'package:meta/meta.dart';
 part 'Alzheimer_stepper_state.dart';
 
 class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
-  AlzheimerStepperCubit() : super(AlzheimerStepperInitial());
+  AlzheimerStepperCubit(this.apiService) : super(AlzheimerStepperInitial());
   int currentStep = 0;
   File? selectedImage;
   PatientInfo? patientInfo;
   double age = 20;
-
+  String result = '';
+  final ApiService apiService;
 
   void increaseStepper() {
     if (currentStep < 2) {
@@ -30,7 +33,8 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
       emit(AlzheimerStepperDecrease());
     }
   }
-  void setPatientAge({required double patientAge}){
+
+  void setPatientAge({required double patientAge}) {
     age = patientAge;
     emit(SetPatientAgeSuccess());
   }
@@ -38,7 +42,8 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
   Future<void> pickImageFromGallery() async {
     try {
       emit(ImageUploadLoading());
-      final galleryImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final galleryImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       if (galleryImage != null) {
         selectedImage = File(galleryImage.path);
         emit(ImageUploadSuccess());
@@ -56,6 +61,7 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
     selectedImage = null;
     emit(ImageRemoveSuccess());
   }
+
   void setPatientInfo({required PatientInfo patient}) {
     try {
       patientInfo = patient;
@@ -64,10 +70,12 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
       emit(AlzheimerPatientInfoError(errMassage: e.toString()));
     }
   }
+
   void savePatientDataToCloud({required PatientInfo patientInfo}) async {
     try {
       emit(AlzheimerPatientInfoSaving());
-      CollectionReference patient = FirebaseFirestore.instance.collection('patients');
+      CollectionReference patient =
+          FirebaseFirestore.instance.collection('patients');
       patient.add({
         'age': patientInfo.age.round().toString(),
         'date': patientInfo.date,
@@ -75,9 +83,9 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
         'fName': patientInfo.fName,
         'isMale': patientInfo.isMale,
         'lName': patientInfo.lName,
-        'result': patientInfo.result,
+        'result': result,
         'userId': patientInfo.userId,
-        'number':'+2${patientInfo.userNumber}',
+        'number': '+2${patientInfo.userNumber}',
       });
       emit(AlzheimerPatientInfoSaved());
     } on Exception catch (e) {
@@ -85,4 +93,31 @@ class AlzheimerStepperCubit extends Cubit<AlzheimerStepperState> {
     }
   }
 
+  Future<void> getPredictionResult() async {
+    emit(PredictionLoading());
+    if (selectedImage == null) {
+      emit(
+          PredictionField(errMassage: 'No image selected')); // Corrected naming
+      return;
+    }
+
+    try {
+      final response = await apiService.postRequestImage(
+        function: 'predict_alzheimer',
+        file: selectedImage!, // Pass the file directly
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        final prediction = PredictionModel.fromJson(responseData);
+        result = prediction.prediction;
+        emit(PredictionSuccess()); // You can also emit with prediction details
+      } else {
+        emit(PredictionField(errMassage: 'Failed to get prediction'));
+      }
+    } catch (e) {
+      emit(PredictionField(errMassage: 'Failed to get prediction'));
+      print(e.toString()); // Proper error handling
+    }
+  }
 }

@@ -40,7 +40,7 @@ class ImageOrQuestionView extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: kSecondryColor,
+                color: kSecondaryColor,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Center(

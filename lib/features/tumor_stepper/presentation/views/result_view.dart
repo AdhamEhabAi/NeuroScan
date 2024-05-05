@@ -74,7 +74,7 @@ class ResultView extends StatelessWidget {
               PatientResultWidget(label: 'Result', value: BlocProvider.of<TumorStepperCubit>(context).result),
               CustomButton(
                 text: 'Save',
-                backGroundColor: kSecondryColor,
+                backGroundColor: kSecondaryColor,
                 ontap: () {
                   BlocProvider.of<TumorStepperCubit>(context)
                       .savePatientDataToCloud(patientInfo: patientInfo);

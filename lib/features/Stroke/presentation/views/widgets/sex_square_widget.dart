@@ -18,7 +18,7 @@ class StrokeSexSquareWidget extends StatelessWidget {
             height: 100,
             decoration: BoxDecoration(
               border: Border.all(
-                  color: isMale ? kSecondryColor : Colors.grey.withOpacity(.3), width: 2),
+                  color: isMale ? kSecondaryColor : Colors.grey.withOpacity(.3), width: 2),
               borderRadius: BorderRadius.circular(
                 12,
               ),
@@ -30,10 +30,10 @@ class StrokeSexSquareWidget extends StatelessWidget {
                     Image.asset(
                       img,
                       width: 50,
-                      color: isMale ? kSecondryColor: Colors.black,
+                      color: isMale ? kSecondaryColor: Colors.black,
                     ),
                     Text(gender,style: TextStyle(
-                      color: isMale ? kSecondryColor : Colors.black,
+                      color: isMale ? kSecondaryColor : Colors.black,
                     ),),
                   ],
                 )),
@@ -42,7 +42,7 @@ class StrokeSexSquareWidget extends StatelessWidget {
           const Positioned(
             right: 4,
             top: 4,
-            child: Icon(Icons.check_circle,color: kSecondryColor,),
+            child: Icon(Icons.check_circle,color: kSecondaryColor,),
           ) : Container(),
         ],
       ),

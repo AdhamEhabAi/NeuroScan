@@ -150,7 +150,6 @@ class _PatientInfoViewState extends State<PatientInfoView> {
                         patient: PatientInfo(
                           userNumber: phoneNumberController.text,
                           userId: userId!,
-                          result: 'true',
                           disease: 'Tumor',
                           date: formattedDate,
                           fName: firstNameController.text,
