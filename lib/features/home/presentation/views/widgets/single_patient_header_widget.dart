@@ -39,11 +39,11 @@ class SinglePatientHeaderWidget extends StatelessWidget {
                   children: [
                     IconButton(
                         onPressed: () {
-                          openWhatsAppChat(phoneNumber:  pNumber);
+                          openWhatsApp(pNumber);
                         }, icon: Icon(Icons.send_outlined)),
                     IconButton(
                         onPressed: () {
-                          makePhoneCall(phoneNumber: pNumber);
+                          makePhoneCall(pNumber);
                         }, icon: Icon(Icons.call_outlined)),
                   ],
                 ),

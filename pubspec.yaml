@@ -50,6 +50,7 @@ dependencies:
   flutter_svg:
   intl:
   http:
+  permission_handler:
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/core/models/prediction_model.dart';
 import 'package:animation/core/utils/api_services.dart';
@@ -7,7 +6,6 @@ import 'package:animation/features/Autism/data/questions_data/question_data.dart
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-
 part 'autism_state.dart';
 
 class AutismCubit extends Cubit<AutismState> {
@@ -37,7 +35,7 @@ class AutismCubit extends Cubit<AutismState> {
   void savePatientDataToCloud({required PatientInfo patientInfo}) async {
     try {
       emit(AutismPatientInfoSaving());
-      CollectionReference patient =
+      CollectionReference patient = await
           FirebaseFirestore.instance.collection('patients');
       patient.add({
         'age': patientInfo.age.round().toString(),
@@ -81,18 +79,24 @@ class AutismCubit extends Cubit<AutismState> {
     }
   }
   void addAnswerToAnswersList(int questionIndex, dynamic answerSelected) {
-    if ([1, 7, 8, 10].contains(questionIndex)) {
+    if ([0, 6, 7, 9].contains(questionIndex)) {
       if (answerSelected == 'Definitely Agree' ||
           answerSelected == 'Slightly Agree') {
         answers.add(1);
       } else {
         answers.add(0);
       }
-    } else {
+    } else if([1, 2,3,4,5,8].contains(questionIndex)){
       if (answerSelected == 'Slightly Disagree' ||
           answerSelected == 'Definitely Disagree') {
         answers.add(1);
       } else {
+        answers.add(0);
+      }
+    }else {
+      if(answerSelected == 'Yes'){
+        answers.add(1);
+      }else if(answerSelected == 'No'){
         answers.add(0);
       }
     }
@@ -101,10 +105,10 @@ class AutismCubit extends Cubit<AutismState> {
   Future<void> getPrediction() async {
     emit(PredictionLoading());
     try {
-      answers.add(patientInfo!.age);
-      answers.add(patientInfo!.isMale ? 1 : 0 );
-      answers.add(0);
-      answers.add(0);
+      answers.insert(10,patientInfo!.age.toInt());
+      answers.insert(11,patientInfo!.isMale ? 1 : 0 );
+      print(answers);
+
       final response = await apiService
           .postRequestForQuestions(function: 'predict_Autism', headers: {
         'Content-Type': 'application/json'
@@ -121,7 +125,6 @@ class AutismCubit extends Cubit<AutismState> {
       }
     } catch (e) {
       emit(PredictionFailure(errMassage: 'Failed to get prediction'));
-      print(e.toString()); // Proper error handling
     }
   }
   void reset() {

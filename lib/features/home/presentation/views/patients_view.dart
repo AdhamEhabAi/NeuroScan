@@ -69,7 +69,7 @@ class PatientsView extends StatelessWidget {
                   patients.doc(document.id).delete();
                 },
                 onTap: () {
-                  openWhatsAppChat(phoneNumber: data['number'] ?? '');
+                  openWhatsApp(data['number'] ?? '');
                 },
                 date: data['date'] ?? '',
                 disease: data['disease'] ?? '',
