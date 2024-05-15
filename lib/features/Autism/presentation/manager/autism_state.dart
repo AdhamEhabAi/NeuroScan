@@ -33,4 +33,13 @@ final class NextQuestion extends AutismState{}
 final class OutOfRange extends AutismState{}
 
 
+final class PredictionLoading extends AutismState{}
+final class PredictionSuccess extends AutismState{}
+final class PredictionFailure extends AutismState{
+  final String errMassage;
+
+  PredictionFailure({required this.errMassage});
+
+}
+
 

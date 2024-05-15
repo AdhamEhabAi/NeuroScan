@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AlzheimerStepperCubit(ApiService(baseUrl: baseApiForEmulator)),
         ),
-        BlocProvider(create: (context) => AutismCubit(),),
+        BlocProvider(create: (context) => AutismCubit(ApiService(baseUrl: baseApiForEmulator)),),
         BlocProvider(create: (context) => StrokeCubit(ApiService(baseUrl: baseApiForEmulator)),),
       
       ],

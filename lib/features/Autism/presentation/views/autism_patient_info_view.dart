@@ -184,7 +184,6 @@ class _AutismPatientInfoViewState extends State<AutismPatientInfoView> {
                               patient: PatientInfo(
                                 userNumber: phoneNumberController.text,
                                 userId: userId!,
-                                result: 'true',
                                 disease: 'Autism',
                                 date: formattedDate,
                                 fName: firstNameController.text,

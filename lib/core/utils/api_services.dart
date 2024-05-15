@@ -20,4 +20,18 @@ class ApiService {
     final streamedResponse = await request.send();
     return await http.Response.fromStream(streamedResponse);
   }
+
+  Future<http.Response> postRequestForQuestions({
+    required String function,
+    required headers,
+    required body,
+  }) async {
+    final url = '$baseUrl/$function';
+    final response = await http.post(
+      Uri.parse(url),
+      body: body,
+      headers: headers,
+    );
+    return response;
+  }
 }

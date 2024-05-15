@@ -92,7 +92,7 @@ class ResultView extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    const PatientResultWidget(label: 'Result', value: 'False'),
+                    PatientResultWidget(label: 'Result', value: BlocProvider.of<AutismCubit>(context).result),
                     CustomButton(
                         text: 'Save',
                         backGroundColor: kSecondaryColor,

@@ -1,27 +1,30 @@
+import 'dart:convert';
+
 import 'package:animation/core/models/patient_info.dart';
+import 'package:animation/core/models/prediction_model.dart';
+import 'package:animation/core/utils/api_services.dart';
 import 'package:animation/features/Autism/data/questions_data/question_data.dart';
-import 'package:animation/features/Autism/presentation/views/result_view.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 part 'autism_state.dart';
 
 class AutismCubit extends Cubit<AutismState> {
-  AutismCubit() : super(AutismInitial());
+  AutismCubit(this.apiService) : super(AutismInitial());
   PatientInfo? patientInfo;
   List<dynamic> answers = [];
   int currentQuestionIndex = 0;
   dynamic selectedAnswer;
   double age = 20;
+  final ApiService apiService;
+  String result = '';
 
-
-
-  void setPatientAge({required double patientAge}){
+  void setPatientAge({required double patientAge}) {
     age = patientAge;
     emit(SetPatientAgeSuccess());
   }
+
   void setPatientInfo({required PatientInfo patient}) {
     try {
       patientInfo = patient;
@@ -43,9 +46,9 @@ class AutismCubit extends Cubit<AutismState> {
         'fName': patientInfo.fName,
         'isMale': patientInfo.isMale,
         'lName': patientInfo.lName,
-        'result': patientInfo.result,
+        'result': result,
         'userId': patientInfo.userId,
-        'number':'+20${patientInfo.userNumber}',
+        'number': '+20${patientInfo.userNumber}',
       });
       emit(AutismPatientInfoSaved());
     } on Exception catch (e) {
@@ -58,31 +61,74 @@ class AutismCubit extends Cubit<AutismState> {
     emit(AnswerSelected(answer: answer));
   }
 
-  void nextOnPressed({required answerSelected}) {
-    if (currentQuestionIndex < questions.length-1) {
+  void nextOnPressed({required dynamic answerSelected}) {
+    if (currentQuestionIndex < questions.length - 1) {
       if (answerSelected == null) {
         emit(NoAnswerSelected());
       } else {
-        answers.add(answerSelected);
+        addAnswerToAnswersList(currentQuestionIndex, answerSelected);
         selectedAnswer = null;
         currentQuestionIndex += 1;
         emit(NextQuestion());
       }
     } else {
-      // here i can get the answers
       if (answerSelected != null) {
-        answers.add(answerSelected);
-        emit(OutOfRange());
-        Get.off(const ResultView());
-        for (var answer in answers) {
-          print(answer);
-        }
-        answers = [];
-        currentQuestionIndex = 0;
-        selectedAnswer = null;
-      }else{
+        addAnswerToAnswersList(currentQuestionIndex, answerSelected);
+        getPrediction();
+      } else {
         emit(NoAnswerSelected());
       }
     }
   }
+  void addAnswerToAnswersList(int questionIndex, dynamic answerSelected) {
+    if ([1, 7, 8, 10].contains(questionIndex)) {
+      if (answerSelected == 'Definitely Agree' ||
+          answerSelected == 'Slightly Agree') {
+        answers.add(1);
+      } else {
+        answers.add(0);
+      }
+    } else {
+      if (answerSelected == 'Slightly Disagree' ||
+          answerSelected == 'Definitely Disagree') {
+        answers.add(1);
+      } else {
+        answers.add(0);
+      }
+    }
+  }
+
+  Future<void> getPrediction() async {
+    emit(PredictionLoading());
+    try {
+      answers.add(patientInfo!.age);
+      answers.add(patientInfo!.isMale ? 1 : 0 );
+      answers.add(0);
+      answers.add(0);
+      final response = await apiService
+          .postRequestForQuestions(function: 'predict_Autism', headers: {
+        'Content-Type': 'application/json'
+      }, body: jsonEncode({
+        "features": answers,
+      }));
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        final prediction = PredictionModel.fromJson(responseData);
+        result = prediction.prediction;
+        emit(PredictionSuccess()); // You can also emit with prediction details
+      } else {
+        emit(PredictionFailure(errMassage: 'Failed to get prediction'));
+      }
+    } catch (e) {
+      emit(PredictionFailure(errMassage: 'Failed to get prediction'));
+      print(e.toString()); // Proper error handling
+    }
+  }
+  void reset() {
+    answers = [];
+    currentQuestionIndex = 0;
+    selectedAnswer = null;
+    emit(AutismInitial());
+  }
+
 }
