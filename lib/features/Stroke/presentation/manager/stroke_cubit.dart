@@ -156,32 +156,38 @@ class StrokeCubit extends Cubit<StrokeState> {
       }
     } catch (e) {
       emit(PredictionField(errMassage: 'Failed to get prediction'));
-      print(e.toString()); // Proper error handling
     }
   }
   Future<void> getPrediction() async {
     emit(PredictionLoading());
     try {
-      final response = await apiService
-          .postRequestForQuestions(function: 'predict', headers: {
-        'Content-Type': 'application/json'
-      }, body: jsonEncode({
-        "gender": patientInfo!.isMale ? 1 : 0 ,
+      final requestBody = jsonEncode({
+        "gender": patientInfo!.isMale ? 1 : 0,
         "age": patientInfo!.age.toInt(),
         "hypertension": answers[0],
         "heart_disease": answers[1],
         "ever_married": answers[2],
         "work_type": answers[3],
-        "Residence_type":answers[4],
+        "Residence_type": answers[4],
         "avg_glucose_level": patientInfo!.gLevel,
         "bmi": patientInfo!.bmi,
         "smoking_status": answers[5],
-      }));
+      });
+
+
+      final response = await apiService.postRequestForQuestions(
+        function: 'predict',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: requestBody,
+      );
+
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         final prediction = PredictionModel.fromJson(responseData);
         result = prediction.prediction;
-        emit(PredictionSuccess(result: result)); // You can also emit with prediction details
+        emit(PredictionSuccess(result: result));
       } else {
         emit(PredictionField(errMassage: 'Failed to get prediction'));
       }
@@ -189,6 +195,7 @@ class StrokeCubit extends Cubit<StrokeState> {
       emit(PredictionField(errMassage: 'Failed to get prediction'));
     }
   }
+
   void reset() {
     answers = [];
     currentQuestionIndex = 0;
