@@ -1,18 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/core/models/prediction_model.dart';
 import 'package:animation/core/utils/api_services.dart';
 import 'package:animation/features/Stroke/data/questions_data/question_data.dart';
-import 'package:animation/features/Stroke/presentation/views/stroke_result_view.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
-
 part 'stroke_state.dart';
 
 class StrokeCubit extends Cubit<StrokeState> {
@@ -89,13 +85,38 @@ class StrokeCubit extends Cubit<StrokeState> {
     selectedAnswer = answer;
     emit(AnswerSelected(answer: answer));
   }
+  void addAnswerToAnswersList(int questionIndex, dynamic answerSelected) {
+    if(answerSelected == 'Yes'){
+      answers.add(1);
+    }else if(answerSelected == 'No'){
+      answers.add(0);
+    }else if(answerSelected == 'Private'){
+      answers.add(1);
+    }else if(answerSelected == 'Govt_job'){
+      answers.add(0);
+    }else if(answerSelected == 'Self-employed'){
+      answers.add(2);
+    }else if(answerSelected == 'Urban'){
+      answers.add(1);
+    }
+    else if(answerSelected == 'Rural'){
+      answers.add(0);
+    }else if(answerSelected == 'Smokes'){
+      answers.add(3);
+    }else if(answerSelected == 'Formerly smoked'){
+      answers.add(1);
+    }else if(answerSelected == 'Never smoked'){
+      answers.add(2);
+    }
+  }
+
 
   void nextOnPressed({required answerSelected}) {
     if (currentQuestionIndex < stokeQuestions.length - 1) {
       if (answerSelected == null) {
         emit(NoAnswerSelected());
       } else {
-        answers.add(answerSelected);
+        addAnswerToAnswersList(currentQuestionIndex, answerSelected);
         selectedAnswer = null;
         currentQuestionIndex += 1;
         emit(NextQuestion());
@@ -103,24 +124,15 @@ class StrokeCubit extends Cubit<StrokeState> {
     } else {
       // here i can get the answers
       if (answerSelected != null) {
-        answers.add(answerSelected);
-        emit(OutOfRange());
-        Get.off(StrokeResultView(
-          result: result,
-        ));
-        for (var answer in answers) {
-          print(answer);
-        }
-        answers = [];
-        currentQuestionIndex = 0;
-        selectedAnswer = null;
+        addAnswerToAnswersList(currentQuestionIndex, answerSelected);
+        getPrediction();
       } else {
         emit(NoAnswerSelected());
       }
     }
   }
 
-  Future<void> getPredictionResult() async {
+  Future<void> getPredictionResultImage() async {
     emit(PredictionLoading());
     if (selectedImage == null) {
       emit(
@@ -138,7 +150,7 @@ class StrokeCubit extends Cubit<StrokeState> {
         final responseData = jsonDecode(response.body);
         final prediction = PredictionModel.fromJson(responseData);
         result = prediction.prediction;
-        emit(PredictionSuccess()); // You can also emit with prediction details
+        emit(PredictionSuccess(result: result)); // You can also emit with prediction details
       } else {
         emit(PredictionField(errMassage: 'Failed to get prediction'));
       }
@@ -147,4 +159,41 @@ class StrokeCubit extends Cubit<StrokeState> {
       print(e.toString()); // Proper error handling
     }
   }
+  Future<void> getPrediction() async {
+    emit(PredictionLoading());
+    try {
+      final response = await apiService
+          .postRequestForQuestions(function: 'predict', headers: {
+        'Content-Type': 'application/json'
+      }, body: jsonEncode({
+        "gender": patientInfo!.isMale ? 1 : 0 ,
+        "age": patientInfo!.age.toInt(),
+        "hypertension": answers[0],
+        "heart_disease": answers[1],
+        "ever_married": answers[2],
+        "work_type": answers[3],
+        "Residence_type":answers[4],
+        "avg_glucose_level": patientInfo!.gLevel,
+        "bmi": patientInfo!.bmi,
+        "smoking_status": answers[5],
+      }));
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        final prediction = PredictionModel.fromJson(responseData);
+        result = prediction.prediction;
+        emit(PredictionSuccess(result: result)); // You can also emit with prediction details
+      } else {
+        emit(PredictionField(errMassage: 'Failed to get prediction'));
+      }
+    } catch (e) {
+      emit(PredictionField(errMassage: 'Failed to get prediction'));
+    }
+  }
+  void reset() {
+    answers = [];
+    currentQuestionIndex = 0;
+    selectedAnswer = null;
+    emit(StrokeInitial());
+  }
+
 }

@@ -44,7 +44,11 @@ final class NextQuestion extends StrokeState {}
 final class OutOfRange extends StrokeState {}
 
 
-final class PredictionSuccess extends StrokeState {}
+final class PredictionSuccess extends StrokeState {
+  final String result;
+
+  PredictionSuccess({required this.result});
+}
 final class PredictionField extends StrokeState {
   final String errMassage;
 

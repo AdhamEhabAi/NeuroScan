@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animation/core/models/patient_info.dart';
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
@@ -25,6 +27,10 @@ class _StrokePatientInfoViewState extends State<StrokePatientInfoView> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController heightController = TextEditingController();
+  final TextEditingController massController = TextEditingController();
+  final TextEditingController glController = TextEditingController();
+
 
   double age = 20;
   @override
@@ -32,6 +38,9 @@ class _StrokePatientInfoViewState extends State<StrokePatientInfoView> {
     firstNameController.dispose();
     secondNameController.dispose();
     phoneNumberController.dispose();
+    heightController.dispose();
+    massController.dispose();
+    glController.dispose();
     super.dispose();
   }
 
@@ -127,6 +136,74 @@ class _StrokePatientInfoViewState extends State<StrokePatientInfoView> {
                         }
                       },
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      prefix: const Icon(Icons.numbers_outlined),
+                      controller: glController,
+                      textInputType: TextInputType.number,
+                      labelText: 'Average glucose level',
+                      hintText: 'Average glucose level',
+                      validator: (value) {
+                        int gl = int.parse(glController.text);
+                        if (value!.isEmpty) {
+                          return 'This Field is required';
+                        } else if(gl < 0){
+                          return "Enter positive number";
+                        }else{
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            prefix: const Icon(Icons.numbers_outlined),
+                            controller: heightController,
+                            textInputType: TextInputType.number,
+                            labelText: 'Height',
+                            hintText: 'Height',
+                            validator: (value) {
+                              int height = int.parse(heightController.text);
+                              if (value!.isEmpty) {
+                                return 'This Field is required';
+                              } else if(height < 0){
+                                return "Enter positive number";
+                              }else{
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: CustomTextField(
+                            prefix: const Icon(Icons.numbers_outlined),
+                            controller: massController,
+                            textInputType: TextInputType.number,
+                            labelText: 'Body Mass',
+                            hintText: 'Body Mass',
+                            validator: (value) {
+                              int mass = int.parse(massController.text);
+                              if (value!.isEmpty) {
+                                return 'This Field is required';
+                              } else if(mass < 0){
+                                return "Enter positive number";
+                              }else{
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+
                     StrokeAgeSliderWidget(age: age),
                     const SizedBox(
                       height: 20,
@@ -176,10 +253,16 @@ class _StrokePatientInfoViewState extends State<StrokePatientInfoView> {
 
                             String? userId =
                                 FirebaseAuth.instance.currentUser?.uid;
+                            int height = int.parse(heightController.text);
+                            int mass = int.parse(massController.text);
+                            int gl = int.parse(glController.text);
+                            double bmi = mass / pow(height / 100, 2);
 
                             BlocProvider.of<StrokeCubit>(context)
                                 .setPatientInfo(
                               patient: PatientInfo(
+                                bmi: bmi,
+                                gLevel: gl,
                                 userNumber: phoneNumberController.text,
                                 userId: userId!,
                                 disease: 'Stroke',

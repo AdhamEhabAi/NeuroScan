@@ -7,13 +7,16 @@ class PatientInfo {
   String? result;
   final String userId;
   final String userNumber;
-
+  double? bmi;
+  int? gLevel;
   PatientInfo(
       {required this.fName,
        required this.userNumber,
       required this.userId, this.result,
       required this.lName,
       required this.date,
+        this.bmi,
+        this.gLevel,
       required this.disease,
       required this.age,
       required this.isMale});

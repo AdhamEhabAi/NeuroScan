@@ -107,7 +107,6 @@ class AutismCubit extends Cubit<AutismState> {
     try {
       answers.insert(10,patientInfo!.age.toInt());
       answers.insert(11,patientInfo!.isMale ? 1 : 0 );
-      print(answers);
 
       final response = await apiService
           .postRequestForQuestions(function: 'predict_Autism', headers: {

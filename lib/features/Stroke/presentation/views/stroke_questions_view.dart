@@ -1,19 +1,35 @@
 import 'package:animation/core/utils/constants.dart';
 import 'package:animation/core/widgets/custom_button.dart';
+import 'package:animation/core/widgets/show_failure_snack_bar.dart';
 import 'package:animation/core/widgets/show_hint_snack_bar.dart';
+import 'package:animation/core/widgets/show_success_snack_bar.dart';
 import 'package:animation/features/Stroke/data/questions_data/question_data.dart';
 import 'package:animation/features/Stroke/presentation/manager/stroke_cubit.dart';
+import 'package:animation/features/Stroke/presentation/views/stroke_result_view.dart';
 import 'package:animation/features/Stroke/presentation/views/widgets/stoke_question_widget.dart';
+import 'package:animation/features/home/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as trans;
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class StrokeQuestionsView extends StatelessWidget {
   const StrokeQuestionsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StrokeCubit, StrokeState>(
+    return BlocConsumer<StrokeCubit, StrokeState>(
+      listener: (context, state) {
+        if (state is PredictionSuccess) {
+          trans.Get.off(StrokeResultView(result: state.result,));
+          showSuccessSnackBar(context, 'Prediction Success');
+          BlocProvider.of<StrokeCubit>(context).reset();
+        } else if (state is PredictionField) {
+          showFailureSnackBar(context, state.errMassage);
+          trans.Get.offAll(const HomeScreen());
+          BlocProvider.of<StrokeCubit>(context).reset();
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: kPrimaryColor,
@@ -31,87 +47,94 @@ class StrokeQuestionsView extends StatelessWidget {
             leading: IconButton(
                 onPressed: () {
                   trans.Get.back();
+                  BlocProvider.of<StrokeCubit>(context).reset();
                 },
                 icon: const Icon(
                   Icons.arrow_back,
                   color: Colors.white,
                 )),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Question ${BlocProvider.of<StrokeCubit>(context).currentQuestionIndex + 1}/${stokeQuestions.length}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 24),
-                ),
-                QuestionWidget(
-                    currentQuestionIndex: BlocProvider.of<StrokeCubit>(context)
-                        .currentQuestionIndex),
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: stokeQuestions[BlocProvider.of<StrokeCubit>(context)
-                          .currentQuestionIndex]
-                      .answers
-                      .length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: CustomButton(
-                        ontap: () {
-                          BlocProvider.of<StrokeCubit>(context)
-                              .setSelectedAnswer(
-                                  answer: stokeQuestions[
+          body: ModalProgressHUD(
+            inAsyncCall: state is PredictionLoading,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Question ${BlocProvider.of<StrokeCubit>(context).currentQuestionIndex + 1}/${stokeQuestions.length}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 24),
+                  ),
+                  QuestionWidget(
+                      currentQuestionIndex: BlocProvider.of<StrokeCubit>(context)
+                          .currentQuestionIndex),
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: stokeQuestions[
+                            BlocProvider.of<StrokeCubit>(context)
+                                .currentQuestionIndex]
+                        .answers
+                        .length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: CustomButton(
+                          ontap: () {
+                            BlocProvider.of<StrokeCubit>(context)
+                                .setSelectedAnswer(
+                                    answer: stokeQuestions[
+                                            BlocProvider.of<StrokeCubit>(context)
+                                                .currentQuestionIndex]
+                                        .answers[index]);
+                          },
+                          text: stokeQuestions[
+                                  BlocProvider.of<StrokeCubit>(context)
+                                      .currentQuestionIndex]
+                              .answers[index],
+                          backGroundColor: BlocProvider.of<StrokeCubit>(context)
+                                      .selectedAnswer ==
+                                  stokeQuestions[
                                           BlocProvider.of<StrokeCubit>(context)
                                               .currentQuestionIndex]
-                                      .answers[index]);
-                        },
-                        text: stokeQuestions[BlocProvider.of<StrokeCubit>(context)
-                                .currentQuestionIndex]
-                            .answers[index],
-                        backGroundColor: BlocProvider.of<StrokeCubit>(context)
-                                    .selectedAnswer ==
-                            stokeQuestions[BlocProvider.of<StrokeCubit>(context)
-                                        .currentQuestionIndex]
-                                    .answers[index]
-                            ? kSecondaryColor
-                            : Colors.white,
-                        textColor: BlocProvider.of<StrokeCubit>(context)
-                                    .selectedAnswer ==
-                            stokeQuestions[BlocProvider.of<StrokeCubit>(context)
-                                    .currentQuestionIndex].answers[index]
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                    );
-                  },
-                ),
-                CustomButton(
-                  ontap: () {
-                    // Check if the state is NoAnswerSelected
-                    if (state is NoAnswerSelected) {
-                      showHintSnackBar(context, 'No answer is selected');
-
-                    }else {
-                      // If an answer is selected, proceed to the next question
-                      dynamic answerSelected =
-                          BlocProvider.of<StrokeCubit>(context).selectedAnswer;
-                      // Proceed with the next action
-                      BlocProvider.of<StrokeCubit>(context)
-                          .nextOnPressed(answerSelected: answerSelected);
-                    }
-                  },
-                  text: 'Next',
-                  backGroundColor: kSecondaryColor,
-                )
-
-              ],
+                                      .answers[index]
+                              ? kSecondaryColor
+                              : Colors.white,
+                          textColor: BlocProvider.of<StrokeCubit>(context)
+                                      .selectedAnswer ==
+                                  stokeQuestions[
+                                          BlocProvider.of<StrokeCubit>(context)
+                                              .currentQuestionIndex]
+                                      .answers[index]
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      );
+                    },
+                  ),
+                  CustomButton(
+                    ontap: () {
+                      // Check if the state is NoAnswerSelected
+                      if (state is NoAnswerSelected) {
+                        showHintSnackBar(context, 'No answer is selected');
+                      } else {
+                        // If an answer is selected, proceed to the next question
+                        dynamic answerSelected =
+                            BlocProvider.of<StrokeCubit>(context).selectedAnswer;
+                        // Proceed with the next action
+                        BlocProvider.of<StrokeCubit>(context)
+                            .nextOnPressed(answerSelected: answerSelected);
+                      }
+                    },
+                    text: 'Next',
+                    backGroundColor: kSecondaryColor,
+                  )
+                ],
+              ),
             ),
           ),
         );

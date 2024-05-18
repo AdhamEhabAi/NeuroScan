@@ -105,7 +105,7 @@ class UploadImageView extends StatelessWidget {
                         text: 'Result',
                         ontap: () {
                           if (BlocProvider.of<StrokeCubit>(context).selectedImage != null) {
-                            BlocProvider.of<StrokeCubit>(context).getPredictionResult();
+                            BlocProvider.of<StrokeCubit>(context).getPredictionResultImage();
                           } else {
                             showHintSnackBar(context, 'Please Enter An Image');
                           }
