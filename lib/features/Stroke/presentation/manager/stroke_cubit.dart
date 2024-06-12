@@ -142,7 +142,7 @@ class StrokeCubit extends Cubit<StrokeState> {
 
     try {
       final response = await apiService.postRequestImage(
-        function: 'predict_stroke',
+        function: 'predict_stroke_CNN',
         file: selectedImage!, // Pass the file directly
       );
 
@@ -156,6 +156,7 @@ class StrokeCubit extends Cubit<StrokeState> {
       }
     } catch (e) {
       emit(PredictionField(errMassage: 'Failed to get prediction'));
+      print(e.toString());
     }
   }
   Future<void> getPrediction() async {
@@ -173,10 +174,8 @@ class StrokeCubit extends Cubit<StrokeState> {
         "bmi": patientInfo!.bmi,
         "smoking_status": answers[5],
       });
-
-
       final response = await apiService.postRequestForQuestions(
-        function: 'predict',
+        function: 'predict_stroke_tab',
         headers: {
           'Content-Type': 'application/json'
         },
