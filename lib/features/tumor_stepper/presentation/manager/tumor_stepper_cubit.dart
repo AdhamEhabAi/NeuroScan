@@ -118,7 +118,6 @@ class TumorStepperCubit extends Cubit<TumorStepperState> {
       }
     } catch (e) {
       emit(PredictionField(errMassage: 'Failed to get prediction'));
-      print(e.toString()); // Proper error handling
     }
   }
 

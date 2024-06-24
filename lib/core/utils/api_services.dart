@@ -10,7 +10,7 @@ class ApiService {
     required String function,
     required File file,
   }) async {
-    final url = '$baseUrl/$function';
+    final url = '$baseUrl/$function/';
     final request = http.MultipartRequest('POST', Uri.parse(url));
 
     request.files.add(
@@ -26,7 +26,7 @@ class ApiService {
     required headers,
     required body,
   }) async {
-    final url = '$baseUrl/$function';
+    final url = '$baseUrl/$function/';
     final response = await http.post(
       Uri.parse(url),
       body: body,

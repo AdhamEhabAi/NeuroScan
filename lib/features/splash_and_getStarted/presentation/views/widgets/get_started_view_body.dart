@@ -34,7 +34,7 @@ class GetStartedViewBody extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Bringing advanced brain tumor detection to your fingertips, for a healthier tomorrow. ',
+                  "Welcome to NeuroScan: AI-Powered Insights for a Healthier Brain.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
